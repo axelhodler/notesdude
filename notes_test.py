@@ -1,4 +1,9 @@
+from webtest import TestApp
+
 import notes
 
 def test_index():
-    assert notes.index() == 'hello'
+    bottle = TestApp(notes.app)
+    result = bottle.get('/')
+    assert result.status == '200 OK'
+    assert result.body == 'hello'

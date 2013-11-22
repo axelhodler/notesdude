@@ -1,8 +1,10 @@
-import bottle
+from bottle import Bottle, route, run
 
-@bottle.route('/')
+app = Bottle()
+
+@app.route('/')
 def index():
     return 'hello'
 
 if __name__ == '__main__':
-    bottle.run()
+    app.run()
