@@ -8,17 +8,11 @@ class DbAccessor():
         self.cur.execute('CREATE TABLE IF NOT EXISTS Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
 
     def getAllNotes(self):
-        ''' returns a list with the notes as dictionaries '''
-        notes = []
-
+        ''' returns a list with tuples '''
         self.cur.execute('SELECT * FROM Notes')
         rows = self.cur.fetchall()
 
-        for row in rows:
-            item = ()
-            notes.append(row)
-
-        return notes
+        return rows
 
     def addNote(self, title, content):
         note = (title, content)
