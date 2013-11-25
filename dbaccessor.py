@@ -5,6 +5,7 @@ class DbAccessor():
     def __init__(self, db_file_name):
         self.con = sqlite3.connect(db_file_name)
         self.cur = self.con.cursor()
+        self.cur.execute('CREATE TABLE IF NOT EXISTS Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
 
     def getAllNotes(self):
         ''' returns a list with the notes as dictionaries '''
