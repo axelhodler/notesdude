@@ -4,21 +4,17 @@ import os
 DB = 'test.db'
 
 class DbAccessor():
+    def __init__(self):
+        self.con = sqlite3.connect(DB)
+        self.cur = self.con.cursor()
+
     def addNote(self, title, content):
-        con = sqlite3.connect(DB)
-        cur = con.cursor()
-
         note = (title, content)
-        cur.execute('INSERT INTO Notes(Title, Content) VALUES(?,?)', note)
+        self.cur.execute('INSERT INTO Notes(Title, Content) VALUES(?,?)', note)
 
-        con.commit()
-        cur.close()
+        self.con.commit()
 
     def deleteNote(self, id):
-        con = sqlite3.connect(DB)
-        cur = con.cursor()
+        self.cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
 
-        cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
-
-        con.commit()
-        cur.close()
+        self.con.commit()
