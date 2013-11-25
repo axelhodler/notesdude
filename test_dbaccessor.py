@@ -25,6 +25,17 @@ class TestDbAccessor():
         assert rows[1] == 'testtitle'
         assert rows[2] == 'testcontent'
 
+    def testDeletingNote(self):
+        dba = dbaccessor.DbAccessor()
+        dba.addNote('testtitle', 'testcontent')
+
+        dba.deleteNote(1)
+
+        self.cur.execute('SELECT * FROM Notes')
+        rows = self.cur.fetchone()
+
+        assert rows == None
+
     def tearDown(self):
         self.cur.execute('DROP TABLE IF EXISTS Notes')
         self.con.close()
