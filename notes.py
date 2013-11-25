@@ -15,5 +15,9 @@ def index():
     output = template('templates/index.tpl', rows=notes)
     return output
 
+@app.route('/new')
+def new():
+    return 'hello'
+
 if __name__ == '__main__':
     app.run()

@@ -20,5 +20,11 @@ class TestWebserver():
         match = re.search(r'<td>blabla</td>\s*</tr>', result.body)
         assert match
 
+    def test_new(self):
+        bottle = TestApp(notes.app)
+        result = bottle.get('/new')
+        assert result.status == '200 OK'
+
     def tearDown(self):
-        os.remove(DB)
+        if os.path.isfile(DB):
+            os.remove(DB)
