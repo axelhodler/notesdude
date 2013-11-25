@@ -14,9 +14,10 @@ class TestDbAccessor():
         self.cur.execute('DROP TABLE IF EXISTS Notes')
         self.cur.execute('CREATE TABLE Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
 
+        self.dba = dbaccessor.DbAccessor(DB)
+
     def testAddingNote(self):
-        dba = dbaccessor.DbAccessor(DB)
-        dba.addNote('testtitle', 'testcontent')
+        self.dba.addNote('testtitle', 'testcontent')
 
         self.cur.execute('SELECT * FROM Notes')
         rows = self.cur.fetchone()
@@ -26,10 +27,9 @@ class TestDbAccessor():
         assert rows[2] == 'testcontent'
 
     def testDeletingNote(self):
-        dba = dbaccessor.DbAccessor(DB)
-        dba.addNote('testtitle', 'testcontent')
+        self.dba.addNote('testtitle', 'testcontent')
 
-        dba.deleteNote(1)
+        self.dba.deleteNote(1)
 
         self.cur.execute('SELECT * FROM Notes')
         rows = self.cur.fetchone()
@@ -37,11 +37,10 @@ class TestDbAccessor():
         assert rows == None
 
     def testGettingAllNotes(self):
-        dba = dbaccessor.DbAccessor(DB)
-        dba.addNote('testtitle', 'testcontent')
-        dba.addNote('testtitle2', 'testcontent2')
+        self.dba.addNote('testtitle', 'testcontent')
+        self.dba.addNote('testtitle2', 'testcontent2')
 
-        notes = dba.getAllNotes()
+        notes = self.dba.getAllNotes()
 
         assert len(notes) == 2
         assert notes[0].get('id') == 1
