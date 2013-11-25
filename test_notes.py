@@ -1,5 +1,6 @@
 from webtest import TestApp
 import os
+import re
 
 import notes
 import dbaccessor
@@ -16,7 +17,8 @@ class TestWebserver():
         result = bottle.get('/')
 
         assert result.status == '200 OK'
-        assert result.body == "[(1, u'eins', u'lorem ipsum'), (2, u'zwei', u'blabla')]"
+        match = re.search(r'<td>blabla</td>\s*</tr>', result.body)
+        assert match
 
     def tearDown(self):
         os.remove(DB)

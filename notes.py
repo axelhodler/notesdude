@@ -1,4 +1,4 @@
-from bottle import Bottle, route, run
+from bottle import Bottle, route, run, template
 
 import dbaccessor
 
@@ -9,9 +9,11 @@ app = Bottle()
 @app.route('/')
 def index():
     dba = dbaccessor.DbAccessor(DB)
+
     notes = dba.getAllNotes()
 
-    return str(notes)
+    output = template('templates/index.tpl', rows=notes)
+    return output
 
 if __name__ == '__main__':
     app.run()
