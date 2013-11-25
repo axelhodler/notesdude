@@ -15,12 +15,8 @@ class DbAccessor():
         rows = self.cur.fetchall()
 
         for row in rows:
-            item = {}
-            item['id'] = row[0]
-            item['title'] = row[1]
-            item['content'] = row[2]
-
-            notes.append(item)
+            item = ()
+            notes.append(row)
 
         return notes
 

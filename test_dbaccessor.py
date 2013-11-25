@@ -43,13 +43,13 @@ class TestDbAccessor():
         notes = self.dba.getAllNotes()
 
         assert len(notes) == 2
-        assert notes[0].get('id') == 1
-        assert notes[0].get('title') == 'testtitle'
-        assert notes[0].get('content') == 'testcontent'
+        assert notes[0][0] == 1
+        assert notes[0][1] == 'testtitle'
+        assert notes[0][2] == 'testcontent'
 
-        assert notes[1].get('id') == 2
-        assert notes[1].get('title') == 'testtitle2'
-        assert notes[1].get('content') == 'testcontent2'
+        assert notes[1][0] == 2
+        assert notes[1][1] == 'testtitle2'
+        assert notes[1][2] == 'testcontent2'
 
     def tearDown(self):
         self.cur.execute('DROP TABLE IF EXISTS Notes')

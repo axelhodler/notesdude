@@ -16,7 +16,7 @@ class TestWebserver():
         result = bottle.get('/')
 
         assert result.status == '200 OK'
-        assert result.body == "[{'content': u'lorem ipsum', 'id': 1, 'title': u'eins'}, {'content': u'blabla', 'id': 2, 'title': u'zwei'}]"
+        assert result.body == "[(1, u'eins', u'lorem ipsum'), (2, u'zwei', u'blabla')]"
 
     def tearDown(self):
         os.remove(DB)

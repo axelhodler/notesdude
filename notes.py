@@ -10,6 +10,7 @@ app = Bottle()
 def index():
     dba = dbaccessor.DbAccessor(DB)
     notes = dba.getAllNotes()
+
     return str(notes)
 
 if __name__ == '__main__':
