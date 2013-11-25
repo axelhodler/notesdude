@@ -24,6 +24,8 @@ class TestWebserver():
         bottle = TestApp(notes.app)
         result = bottle.get('/new')
         assert result.status == '200 OK'
+        match = re.search(r'<input type="text" size="100" maxlength="100" name="content">', result.body)
+        assert match
 
     def tearDown(self):
         if os.path.isfile(DB):
