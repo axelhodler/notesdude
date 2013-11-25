@@ -24,3 +24,6 @@ class DbAccessor():
         self.cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
 
         self.con.commit()
+
+    def getCursor(self):
+        return self.cur

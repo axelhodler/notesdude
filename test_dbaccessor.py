@@ -51,6 +51,10 @@ class TestDbAccessor():
         assert notes[1][1] == 'testtitle2'
         assert notes[1][2] == 'testcontent2'
 
+    def testGettingCursor(self):
+        cursor = self.dba.getCursor()
+        assert isinstance(cursor, sqlite3.Cursor)
+
     def tearDown(self):
         self.cur.execute('DROP TABLE IF EXISTS Notes')
         self.con.close()
