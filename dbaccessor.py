@@ -1,11 +1,9 @@
 import sqlite3
 import os
 
-DB = 'test.db'
-
 class DbAccessor():
-    def __init__(self):
-        self.con = sqlite3.connect(DB)
+    def __init__(self, db_file_name):
+        self.con = sqlite3.connect(db_file_name)
         self.cur = self.con.cursor()
 
     def getAllNotes(self):
