@@ -62,6 +62,14 @@ class TestWebserver():
         assert result.status == '404 Not Found'
         assert result.body == 'Nothing here, sorry'
 
+    def test_index_new_button(self):
+        result = self.bottle.get('/new')
+        form = result.form
+        assert form.action == '/new'
+
+        result = form.submit()
+        assert result.status == '200 OK'
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)

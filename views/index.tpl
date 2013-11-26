@@ -1,5 +1,8 @@
 % rebase layout
 <p>Notes</p>
+<form action="/new">
+      <input type="submit" value="New Note">
+</form>
 <table border="1">
 %for row in rows:
   <tr>
