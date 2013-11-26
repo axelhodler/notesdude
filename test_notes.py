@@ -27,6 +27,16 @@ class TestWebserver():
         match = re.search(r'<input type="text" size="100" maxlength="100" name="content">', result.body)
         assert match
 
+    def test_adding_new_note(self):
+        bottle = TestApp(notes.app)
+        result = bottle.get('/new')
+        form = result.form
+        form['title'] = "testtitle"
+        form['content'] = "testcontent"
+
+        result = form.submit('save')
+        assert result.status == '200 OK'
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)

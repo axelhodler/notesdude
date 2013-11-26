@@ -1,4 +1,4 @@
-from bottle import Bottle, route, run, template
+from bottle import Bottle, route, run, template, request
 
 import dbaccessor
 
@@ -17,8 +17,11 @@ def index():
 
 @app.route('/new')
 def new():
-    output = template('templates/new_note.tpl')
-    return output
+    if request.GET.get('save','').strip():
+        return "saved"
+    else:
+        output = template('templates/new_note.tpl')
+        return output
 
 if __name__ == '__main__':
     app.run()
