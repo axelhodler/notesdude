@@ -51,6 +51,10 @@ class TestWebserver():
 
         assert result.body == "Note with id: 1 was added"
 
+    def test_accessing_static_file(self):
+        result = self.bottle.get('/static/css/bootstrap.min.css')
+        assert result.status == '200 OK'
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)
