@@ -1,10 +1,14 @@
-from bottle import Bottle, route, run, template, request
+from bottle import Bottle, route, run, template, request, static_file
 
 import dbaccessor
 
 DB = 'notes.db'
 
 app = Bottle()
+
+@app.route('/static/<filepath:path>')
+def server_static(filepath):
+    return static_file(filepath, root='./static')
 
 @app.route('/')
 def index():
