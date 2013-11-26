@@ -40,6 +40,17 @@ class TestWebserver():
         result = form.submit('save')
         assert result.status == '200 OK'
 
+        # check if has been added to the DB
+        dba = dbaccessor.DbAccessor(DB)
+        notes = dba.getAllNotes()
+
+        assert len(notes) == 1
+        assert notes[0][0] == 1
+        assert notes[0][1] == 'testtitle'
+        assert notes[0][2] == 'testcontent'
+
+        assert result.body == "Note with id: 1 was added"
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)
