@@ -45,9 +45,9 @@ class TestWebserver():
         notes = dba.getAllNotes()
 
         assert len(notes) == 1
-        assert notes[0][0] == 1
-        assert notes[0][1] == 'testtitle'
-        assert notes[0][2] == 'testcontent'
+        assert notes[0].get('id') == 1
+        assert notes[0].get('title') == 'testtitle'
+        assert notes[0].get('content') == 'testcontent'
 
         assert result.body == "Note with id: 1 was added"
 

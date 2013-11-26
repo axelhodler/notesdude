@@ -6,9 +6,9 @@
 <table border="1">
 %for row in rows:
   <tr>
-  %for col in row:
-    <td>{{col}}</td>
-  %end
+    <td>{{row.get('id')}}</td>
+    <td>{{row.get('title')}}</td>
+    <td>{{row.get('content')}}</td>
   </tr>
 %end
 </table>

@@ -12,7 +12,15 @@ class DbAccessor():
         self.cur.execute('SELECT * FROM Notes')
         rows = self.cur.fetchall()
 
-        return rows
+        notes = []
+        for row in rows:
+            note = {}
+            note['id'] = row[0]
+            note['title'] = row[1]
+            note['content'] = row[2]
+            notes.append(note)
+
+        return notes
 
     def addNote(self, title, content):
         note = (title, content)
