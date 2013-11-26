@@ -20,12 +20,14 @@ def index():
 
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes)
+    return indexTemplate(notes, False)
 
 @app.route('/new', method='GET')
 def new():
-    output = template('new_note.tpl')
-    return output
+    dba = dbaccessor.DbAccessor(DB)
+    notes = dba.getAllNotes()
+
+    return indexTemplate(notes, True)
 
 @app.route('/new', method='POST')
 def new():
@@ -37,7 +39,7 @@ def new():
         dba.addNote(title, content)
 
         notes = dba.getAllNotes()
-        return indexTemplate(notes)
+        return indexTemplate(notes, False)
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):
@@ -45,10 +47,10 @@ def delete_note(id):
     dba.deleteNote(id)
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes)
+    return indexTemplate(notes, False)
 
-def indexTemplate(notes):
-    output = template('index.tpl', rows=notes)
+def indexTemplate(notes, isNew):
+    output = template('index.tpl', rows=notes, new=isNew)
     return output
 
 if __name__ == '__main__':

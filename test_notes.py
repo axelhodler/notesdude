@@ -25,19 +25,19 @@ class TestWebserver():
     def test_route_new(self):
         result = self.bottle.get('/new')
         assert result.status == '200 OK'
-        form = result.form
-        assert form.action == '/new'
-        assert form.method == 'POST'
-        assert form['title'].value == ''
-        assert form['content'].value == ''
+        forms = result.forms
+        assert forms[1].action == '/new'
+        assert forms[1].method == 'POST'
+        assert forms[1]['title'].value == ''
+        assert forms[1]['content'].value == ''
 
     def test_adding_new_note(self):
         result = self.bottle.get('/new')
-        form = result.form
-        form['title'] = "testtitle"
-        form['content'] = "testcontent"
+        forms = result.forms
+        forms[1]['title'] = "testtitle"
+        forms[1]['content'] = "testcontent"
 
-        result = form.submit('save')
+        result = forms[1].submit('save')
         assert result.status == '200 OK'
 
         # check if has been added to the DB
@@ -64,10 +64,10 @@ class TestWebserver():
 
     def test_index_new_button(self):
         result = self.bottle.get('/new')
-        form = result.form
-        assert form.action == '/new'
+        forms = result.forms
+        assert forms[0].action == '/new'
 
-        result = form.submit()
+        result = forms[0].submit()
         assert result.status == '200 OK'
 
     def test_deleting_note(self):
