@@ -8,7 +8,7 @@ import dbaccessor
 DB = 'notes.db'
 
 class TestWebserver():
-    def test_index(self):
+    def test_route_index(self):
         dba = dbaccessor.DbAccessor(DB)
         dba.addNote('eins', 'lorem ipsum')
         dba.addNote('zwei', 'blabla')
@@ -20,7 +20,7 @@ class TestWebserver():
         match = re.search(r'<td>blabla</td>\s*</tr>', result.body)
         assert match
 
-    def test_new(self):
+    def test_route_new(self):
         bottle = TestApp(notes.app)
         result = bottle.get('/new')
         assert result.status == '200 OK'
