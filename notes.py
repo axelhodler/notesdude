@@ -20,8 +20,7 @@ def index():
 
     notes = dba.getAllNotes()
 
-    output = template('index.tpl', rows=notes)
-    return output
+    return indexTemplate(notes)
 
 @app.route('/new')
 def new():
@@ -33,8 +32,7 @@ def new():
         dba.addNote(title, content)
 
         notes = dba.getAllNotes()
-        output = template('index.tpl', rows=notes)
-        return output
+        return indexTemplate(notes)
     else:
         output = template('new_note.tpl')
         return output
@@ -45,6 +43,9 @@ def delete_note(id):
     dba.deleteNote(id)
     notes = dba.getAllNotes()
 
+    return indexTemplate(notes)
+
+def indexTemplate(notes):
     output = template('index.tpl', rows=notes)
     return output
 
