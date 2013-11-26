@@ -8,21 +8,22 @@ import dbaccessor
 DB = 'notes.db'
 
 class TestWebserver():
+    def setUp(self):
+        self.bottle = TestApp(notes.app)
+
     def test_route_index(self):
         dba = dbaccessor.DbAccessor(DB)
         dba.addNote('eins', 'lorem ipsum')
         dba.addNote('zwei', 'blabla')
 
-        bottle = TestApp(notes.app)
-        result = bottle.get('/')
+        result = self.bottle.get('/')
 
         assert result.status == '200 OK'
         match = re.search(r'<td>blabla</td>\s*</tr>', result.body)
         assert match
 
     def test_route_new(self):
-        bottle = TestApp(notes.app)
-        result = bottle.get('/new')
+        result = self.bottle.get('/new')
         assert result.status == '200 OK'
         form = result.form
         assert form.action == '/new'
@@ -31,8 +32,7 @@ class TestWebserver():
         assert form['content'].value == ''
 
     def test_adding_new_note(self):
-        bottle = TestApp(notes.app)
-        result = bottle.get('/new')
+        result = self.bottle.get('/new')
         form = result.form
         form['title'] = "testtitle"
         form['content'] = "testcontent"
