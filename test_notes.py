@@ -10,11 +10,11 @@ DB = 'notes.db'
 class TestWebserver():
     def setUp(self):
         self.bottle = TestApp(notes.app)
+        self.dba = dbaccessor.DbAccessor(DB)
 
     def test_route_index(self):
-        dba = dbaccessor.DbAccessor(DB)
-        dba.addNote('eins', 'lorem ipsum')
-        dba.addNote('zwei', 'blabla')
+        self.dba.addNote('eins', 'lorem ipsum')
+        self.dba.addNote('zwei', 'blabla')
 
         result = self.bottle.get('/')
 
@@ -41,8 +41,8 @@ class TestWebserver():
         assert result.status == '200 OK'
 
         # check if has been added to the DB
-        dba = dbaccessor.DbAccessor(DB)
-        notes = dba.getAllNotes()
+
+        notes = self.dba.getAllNotes()
 
         assert len(notes) == 1
         assert notes[0].get('id') == 1
@@ -71,8 +71,7 @@ class TestWebserver():
         assert result.status == '200 OK'
 
     def test_deleting_note(self):
-        dba = dbaccessor.DbAccessor(DB)
-        dba.addNote('eins', 'lorem ipsum')
+        self.dba.addNote('eins', 'lorem ipsum')
 
         result = self.bottle.get('/delete/1')
         assert result.status == '200 OK'
