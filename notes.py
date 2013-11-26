@@ -38,5 +38,14 @@ def new():
         output = template('new_note.tpl')
         return output
 
+@app.route('/delete/:id', method='GET')
+def delete_note(id):
+    dba = dbaccessor.DbAccessor(DB)
+    dba.deleteNote(id)
+    notes = dba.getAllNotes()
+
+    output = template('index.tpl', rows=notes)
+    return output
+
 if __name__ == '__main__':
     app.run()

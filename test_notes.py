@@ -19,7 +19,7 @@ class TestWebserver():
         result = self.bottle.get('/')
 
         assert result.status == '200 OK'
-        match = re.search(r'<td>blabla</td>\s*</tr>', result.body)
+        match = re.search(r'<td>blabla</td>\s*<td>', result.body)
         assert match
 
     def test_route_new(self):
@@ -68,6 +68,13 @@ class TestWebserver():
         assert form.action == '/new'
 
         result = form.submit()
+        assert result.status == '200 OK'
+
+    def test_deleting_note(self):
+        dba = dbaccessor.DbAccessor(DB)
+        dba.addNote('eins', 'lorem ipsum')
+
+        result = self.bottle.get('/delete/1')
         assert result.status == '200 OK'
 
     def tearDown(self):
