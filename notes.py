@@ -12,7 +12,7 @@ def index():
 
     notes = dba.getAllNotes()
 
-    output = template('templates/index.tpl', rows=notes)
+    output = template('index.tpl', rows=notes)
     return output
 
 @app.route('/new')
@@ -27,7 +27,7 @@ def new():
 
         return "Note with id: " + str(noteid) + " was added"
     else:
-        output = template('templates/new_note.tpl')
+        output = template('new_note.tpl')
         return output
 
 if __name__ == '__main__':
