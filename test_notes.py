@@ -24,8 +24,11 @@ class TestWebserver():
         bottle = TestApp(notes.app)
         result = bottle.get('/new')
         assert result.status == '200 OK'
-        match = re.search(r'<input type="text" size="100" maxlength="100" name="content">', result.body)
-        assert match
+        form = result.form
+        assert form.action == '/new'
+        assert form.method == 'GET'
+        assert form['title'].value == ''
+        assert form['content'].value == ''
 
     def test_adding_new_note(self):
         bottle = TestApp(notes.app)
