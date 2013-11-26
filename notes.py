@@ -1,4 +1,4 @@
-from bottle import Bottle, route, run, template, request, static_file
+from bottle import Bottle, route, run, template, request, static_file, error
 
 import dbaccessor
 
@@ -9,6 +9,10 @@ app = Bottle()
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root='./static')
+
+@app.error(404)
+def error404(error):
+    return 'Nothing here, sorry'
 
 @app.route('/')
 def index():

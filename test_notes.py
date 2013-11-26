@@ -55,6 +55,13 @@ class TestWebserver():
         result = self.bottle.get('/static/css/bootstrap.min.css')
         assert result.status == '200 OK'
 
+    def test_nonexistent_route(self):
+        # status=404 because i don't want the stacktrace and therefore
+        # never get the result
+        result = self.bottle.get('/foobar', status=404)
+        assert result.status == '404 Not Found'
+        assert result.body == 'Nothing here, sorry'
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)
