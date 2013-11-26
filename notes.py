@@ -22,20 +22,22 @@ def index():
 
     return indexTemplate(notes)
 
-@app.route('/new')
+@app.route('/new', method='GET')
 def new():
-    if request.GET.get('save','').strip():
-        title = request.GET.get('title','').strip()
-        content = request.GET.get('content','').strip()
+    output = template('new_note.tpl')
+    return output
+
+@app.route('/new', method='POST')
+def new():
+    if request.POST.get('save','').strip():
+        title = request.POST.get('title','').strip()
+        content = request.POST.get('content','').strip()
 
         dba = dbaccessor.DbAccessor(DB)
         dba.addNote(title, content)
 
         notes = dba.getAllNotes()
         return indexTemplate(notes)
-    else:
-        output = template('new_note.tpl')
-        return output
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):

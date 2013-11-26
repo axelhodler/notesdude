@@ -27,7 +27,7 @@ class TestWebserver():
         assert result.status == '200 OK'
         form = result.form
         assert form.action == '/new'
-        assert form.method == 'GET'
+        assert form.method == 'POST'
         assert form['title'].value == ''
         assert form['content'].value == ''
 
