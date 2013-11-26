@@ -31,9 +31,10 @@ def new():
 
         dba = dbaccessor.DbAccessor(DB)
         dba.addNote(title, content)
-        noteid = dba.getCursor().lastrowid
 
-        return "Note with id: " + str(noteid) + " was added"
+        notes = dba.getAllNotes()
+        output = template('index.tpl', rows=notes)
+        return output
     else:
         output = template('new_note.tpl')
         return output

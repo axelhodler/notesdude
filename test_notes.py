@@ -49,7 +49,7 @@ class TestWebserver():
         assert notes[0].get('title') == 'testtitle'
         assert notes[0].get('content') == 'testcontent'
 
-        assert result.body == "Note with id: 1 was added"
+        assert '<p>Notes</p>' in result
 
     def test_accessing_static_file(self):
         result = self.bottle.get('/static/css/bootstrap.min.css')
