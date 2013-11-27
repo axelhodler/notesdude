@@ -1,4 +1,4 @@
-% rebase layout
+% rebase layout route_prefix=route
 <p>Notes</p>
 <form action="/new">
       <input type="submit" value="New Note">

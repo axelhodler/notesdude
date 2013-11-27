@@ -1,14 +1,15 @@
-from bottle import Bottle, route, run, template, request, static_file, error
+from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate
 
 import dbaccessor
 
 DB = 'notes.db'
 
 app = Bottle()
+SimpleTemplate.defaults["get_url"] = app.get_url
 
-@app.route('/static/<filepath:path>')
+@app.route('/static/<filepath:path>', name='static')
 def server_static(filepath):
-    return static_file(filepath, root='./static')
+    return static_file(filepath, root='static')
 
 @app.error(404)
 def error404(error):
@@ -20,14 +21,14 @@ def index():
 
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, False)
+    return indexTemplate(notes, False, '')
 
 @app.route('/new', method='GET')
 def new():
     dba = dbaccessor.DbAccessor(DB)
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, True)
+    return indexTemplate(notes, True, '../')
 
 @app.route('/new', method='POST')
 def new():
@@ -39,7 +40,7 @@ def new():
         dba.addNote(title, content)
 
         notes = dba.getAllNotes()
-        return indexTemplate(notes, False)
+        return indexTemplate(notes, False, '../')
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):
@@ -47,10 +48,10 @@ def delete_note(id):
     dba.deleteNote(id)
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, False)
+    return indexTemplate(notes, False, '../')
 
-def indexTemplate(notes, isNew):
-    output = template('index.tpl', rows=notes, new=isNew)
+def indexTemplate(notes, isNew, toRoute):
+    output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
     return output
 
 if __name__ == '__main__':

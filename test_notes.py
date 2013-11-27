@@ -22,6 +22,8 @@ class TestWebserver():
         match = re.search(r'<td>blabla</td>\s*<td>', result.body)
         assert match
 
+        assert 'href="static/css/bootstrap.min.css"' in result
+
     def test_route_new(self):
         result = self.bottle.get('/new')
         assert result.status == '200 OK'
@@ -30,6 +32,8 @@ class TestWebserver():
         assert forms[1].method == 'POST'
         assert forms[1]['title'].value == ''
         assert forms[1]['content'].value == ''
+
+        assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_adding_new_note(self):
         result = self.bottle.get('/new')
@@ -50,6 +54,7 @@ class TestWebserver():
         assert notes[0].get('content') == 'testcontent'
 
         assert '<p>Notes</p>' in result
+        assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_accessing_static_file(self):
         result = self.bottle.get('/static/css/bootstrap.min.css')
@@ -75,6 +80,8 @@ class TestWebserver():
 
         result = self.bottle.get('/delete/1')
         assert result.status == '200 OK'
+
+        assert 'href="../static/css/bootstrap.min.css"' in result
 
     def tearDown(self):
         if os.path.isfile(DB):
