@@ -53,7 +53,7 @@ class TestWebserver():
         assert notes[0].get('title') == 'testtitle'
         assert notes[0].get('content') == 'testcontent'
 
-        assert '<p>Notes</p>' in result
+        assert '<h1>Notes</h1>' in result
         assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_accessing_static_file(self):
