@@ -26,10 +26,6 @@
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
-          <form action="/new">
-            <input class="btn btn-primary" type="submit" value="New Note">
-          </form>
-          %if new == True:
           <form role="form" action="/new" method="POST">
             <div class="form-group">
               <label for="title">Title:</label>
@@ -41,7 +37,6 @@
             </div>
             <input class="btn btn-primary" type="submit" value="save" name="save">
           </form>
-          %end
         </div>
       </div>
     </div>

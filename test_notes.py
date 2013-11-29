@@ -27,21 +27,21 @@ class TestWebserver():
     def test_route_new(self):
         result = self.bottle.get('/new')
         assert result.status == '200 OK'
-        forms = result.forms
-        assert forms[1].action == '/new'
-        assert forms[1].method == 'POST'
-        assert forms[1]['title'].value == ''
-        assert forms[1]['content'].value == ''
+        form = result.form
+        assert form.action == '/new'
+        assert form.method == 'POST'
+        assert form['title'].value == ''
+        assert form['content'].value == ''
 
         assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_adding_new_note(self):
         result = self.bottle.get('/new')
-        forms = result.forms
-        forms[1]['title'] = "testtitle"
-        forms[1]['content'] = "testcontent"
+        form = result.form
+        form['title'] = "testtitle"
+        form['content'] = "testcontent"
 
-        result = forms[1].submit('save')
+        result = form.submit('save')
         assert result.status == '200 OK'
 
         # check if has been added to the DB
