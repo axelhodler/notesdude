@@ -83,6 +83,13 @@ class TestWebserver():
 
         assert 'href="../static/css/bootstrap.min.css"' in result
 
+    def test_login(self):
+        result = self.bottle.post('/login', {'user': 'xorrr'})
+        assert result.status_int == 200
+
+        result = self.bottle.post('/login', {'user': 'xor'}, status=404)
+        assert result.status_int == 404
+
     def tearDown(self):
         if os.path.isfile(DB):
             os.remove(DB)

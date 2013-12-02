@@ -1,8 +1,9 @@
-from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate
+from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response
 
 import dbaccessor
 
 DB = 'notes.db'
+USERNAME = 'xorrr'
 
 app = Bottle()
 SimpleTemplate.defaults["get_url"] = app.get_url
@@ -49,6 +50,13 @@ def delete_note(id):
     notes = dba.getAllNotes()
 
     return indexTemplate(notes, False, '../')
+
+@app.route('/login', method='POST')
+def login():
+    if request.forms.get('user') == USERNAME:
+        response.status = 200
+    else:
+        response.status = 404
 
 def indexTemplate(notes, isNew, toRoute):
     output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
