@@ -27,16 +27,11 @@ class TestWebserver():
 
         assert 'href="static/css/bootstrap.min.css"' in result
 
-    def test_route_new(self):
-        result = self.bottle.get('/')
-        assert result.status == '200 OK'
-        form = result.form
-        assert form.action == '/new'
-        assert form.method == 'POST'
-        assert form['title'].value == ''
-        assert form['content'].value == ''
-
-        assert 'href="static/css/bootstrap.min.css"' in result
+        form = result.forms
+        assert form[2].action == '/new'
+        assert form[2].method == 'POST'
+        assert form[2]['title'].value == ''
+        assert form[2]['content'].value == ''
 
     def test_adding_new_note(self):
         result = self.bottle.get('/')
