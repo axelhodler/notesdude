@@ -1,11 +1,21 @@
 from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response
-
+from beaker.middleware import SessionMiddleware
+import bottle
 import dbaccessor
 
 DB = 'notes.db'
 USERNAME = 'xorrr'
 
+session_opts = {
+    'session.type': 'file',
+    'session.cookie_expires': 300,
+    'session.data_dir': './data',
+    'session.auto': True
+}
+
 app = Bottle()
+session = SessionMiddleware(app, session_opts)
+
 SimpleTemplate.defaults["get_url"] = app.get_url
 
 @app.route('/static/<filepath:path>', name='static')
@@ -54,13 +64,30 @@ def delete_note(id):
 @app.route('/login', method='POST')
 def login():
     if request.forms.get('user') == USERNAME:
+        s = bottle.request.environ.get('beaker.session')
+        s['user'] = request.forms.get('user')
         response.status = 200
     else:
         response.status = 404
+
+@app.route('/login', method='GET')
+def login():
+    session = bottle.request.environ.get('beaker.session')
+    logged_in = 'user' in session
+    if logged_in:
+        return 'Logged in as: %s' % session['user']
+    else:
+        return 'You are not logged in'
+
+@app.route('/test')
+def test():
+  s = bottle.request.environ.get('beaker.session')
+  s['test'] = s.get('test',0) + 1
+  return 'Test counter: %d' % s['test']
 
 def indexTemplate(notes, isNew, toRoute):
     output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
     return output
 
 if __name__ == '__main__':
-    app.run()
+    bottle.run(app=session)

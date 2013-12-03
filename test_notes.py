@@ -9,7 +9,7 @@ DB = 'notes.db'
 
 class TestWebserver():
     def setUp(self):
-        self.bottle = TestApp(notes.app)
+        self.bottle = TestApp(notes.session)
         self.dba = dbaccessor.DbAccessor(DB)
 
     def test_route_index(self):
@@ -89,6 +89,16 @@ class TestWebserver():
 
         result = self.bottle.post('/login', {'user': 'xor'}, status=404)
         assert result.status_int == 404
+
+    def test_session(self):
+        result = self.bottle.post('/login', {'user': 'xorrr'})
+        result = self.bottle.get('/login')
+
+        assert result.body == 'Logged in as: xorrr'
+
+        result = self.bottle.get('/login')
+
+        assert result.body == 'Logged in as: xorrr'
 
     def tearDown(self):
         if os.path.isfile(DB):
