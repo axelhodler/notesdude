@@ -64,7 +64,7 @@ def delete_note(id):
 @app.route('/login', method='POST')
 def login():
     if request.forms.get('user') == USERNAME:
-        s = bottle.request.environ.get('beaker.session')
+        s = getSession()
         s['user'] = request.forms.get('user')
         response.status = 200
     else:
@@ -72,7 +72,7 @@ def login():
 
 @app.route('/login', method='GET')
 def login():
-    session = bottle.request.environ.get('beaker.session')
+    session = getSession()
     logged_in = 'user' in session
     if logged_in:
         return 'Logged in as: %s' % session['user']
@@ -81,7 +81,7 @@ def login():
 
 @app.route('/logout', method='GET')
 def logout():
-    session = bottle.request.environ.get('beaker.session')
+    session = getSession()
     logged_in = 'user' in session
     if logged_in:
         session.delete()
@@ -92,6 +92,9 @@ def logout():
 def indexTemplate(notes, isNew, toRoute):
     output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
     return output
+
+def getSession():
+    return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':
     bottle.run(app=session)
