@@ -79,12 +79,6 @@ def login():
     else:
         return 'You are not logged in'
 
-@app.route('/test')
-def test():
-  s = bottle.request.environ.get('beaker.session')
-  s['test'] = s.get('test',0) + 1
-  return 'Test counter: %d' % s['test']
-
 def indexTemplate(notes, isNew, toRoute):
     output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
     return output
