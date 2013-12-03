@@ -53,10 +53,14 @@ def new():
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):
-    dba = dbaccessor.DbAccessor(DB)
-    dba.deleteNote(id)
-
-    redirect("/")
+    session = getSession()
+    logged_in = 'user' in session
+    if logged_in:
+        dba = dbaccessor.DbAccessor(DB)
+        dba.deleteNote(id)
+        redirect("/")
+    else:
+        response.status = 404
 
 @app.route('/login', method='POST')
 def login():

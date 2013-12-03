@@ -97,6 +97,10 @@ class TestWebserver():
     def test_deleting_note(self):
         self.dba.addNote('eins', 'lorem ipsum')
 
+        result = self.bottle.get('/delete/1', status=404)
+        assert result.status_int == 404
+
+        self.login()
         result = self.bottle.get('/delete/1')
         assert result.status_int == 302
 
