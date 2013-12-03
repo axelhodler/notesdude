@@ -42,6 +42,12 @@ class TestWebserver():
         assert login_form['user'].value == ''
         assert login_form['password'].value == ''
 
+        result = self.login()
+        result = self.bottle.get('/')
+
+        # dont show the login part if you are already logged in
+        assert len(result.forms) == 3
+
     def test_adding_new_note(self):
         result = self.bottle.get('/')
         new_note_form = result.forms[1]

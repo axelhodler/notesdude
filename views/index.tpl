@@ -1,5 +1,6 @@
 % rebase layout route_prefix=route
 <div class="container">
+  %if user is None:
   <h1>Login:</h1>
   <div class="panel panel-default">
     <div class="panel-body">
@@ -16,6 +17,9 @@
       </form>
     </div>
   </div>
+  %else:
+  <h1>User: {{user}}</h1>
+  %end
   <h1>Notes</h1>
   <div class="row">
     <div class="col-md-8">

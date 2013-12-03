@@ -29,11 +29,16 @@ def error404(error):
 
 @app.route('/')
 def index():
-    dba = dbaccessor.DbAccessor(DB)
+    session = getSession()
+    logged_in = 'user' in session
 
+    dba = dbaccessor.DbAccessor(DB)
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, '')
+    if logged_in:
+        return indexTemplate(notes, session['user'], '')
+    else:
+        return indexTemplate(notes, None, '')
 
 @app.route('/new', method='POST')
 def new():
@@ -81,8 +86,8 @@ def logout():
     else:
         return 'You are not logged in'
 
-def indexTemplate(notes, toRoute):
-    output = template('index.tpl', rows=notes, route=toRoute)
+def indexTemplate(notes, user, toRoute):
+    output = template('index.tpl', rows=notes, user=user, route=toRoute)
     return output
 
 def getSession():
