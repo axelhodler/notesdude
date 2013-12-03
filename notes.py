@@ -79,6 +79,16 @@ def login():
     else:
         return 'You are not logged in'
 
+@app.route('/logout', method='GET')
+def logout():
+    session = bottle.request.environ.get('beaker.session')
+    logged_in = 'user' in session
+    if logged_in:
+        session.delete()
+        return 'Successfully logged out'
+    else:
+        return 'You are not logged in'
+
 def indexTemplate(notes, isNew, toRoute):
     output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
     return output

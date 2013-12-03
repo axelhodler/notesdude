@@ -90,6 +90,18 @@ class TestWebserver():
         result = self.bottle.post('/login', {'user': 'xor'}, status=404)
         assert result.status_int == 404
 
+    def test_logout(self):
+        result = self.bottle.post('/login', {'user': 'xorrr'})
+        result = self.bottle.get('/login')
+
+        assert result.body == 'Logged in as: xorrr'
+
+        result = self.bottle.get('/logout')
+        assert result.body == 'Successfully logged out'
+
+        result = self.bottle.get('/logout')
+        assert result.body == 'You are not logged in'
+
     def test_session(self):
         result = self.bottle.post('/login', {'user': 'xorrr'})
         result = self.bottle.get('/login')
