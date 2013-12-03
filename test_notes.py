@@ -86,9 +86,7 @@ class TestWebserver():
         self.dba.addNote('eins', 'lorem ipsum')
 
         result = self.bottle.get('/delete/1')
-        assert result.status == '200 OK'
-
-        assert 'href="../static/css/bootstrap.min.css"' in result
+        assert result.status_int == 302
 
     def test_login(self):
         result = self.login()

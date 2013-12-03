@@ -50,9 +50,8 @@ def new():
 def delete_note(id):
     dba = dbaccessor.DbAccessor(DB)
     dba.deleteNote(id)
-    notes = dba.getAllNotes()
 
-    return indexTemplate(notes, '../')
+    redirect("/")
 
 @app.route('/login', method='POST')
 def login():
