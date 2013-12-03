@@ -33,7 +33,7 @@ def index():
 
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, False, '')
+    return indexTemplate(notes, '')
 
 @app.route('/new', method='POST')
 def new():
@@ -52,7 +52,7 @@ def delete_note(id):
     dba.deleteNote(id)
     notes = dba.getAllNotes()
 
-    return indexTemplate(notes, False, '../')
+    return indexTemplate(notes, '../')
 
 @app.route('/login', method='POST')
 def login():
@@ -82,8 +82,8 @@ def logout():
     else:
         return 'You are not logged in'
 
-def indexTemplate(notes, isNew, toRoute):
-    output = template('index.tpl', rows=notes, new=isNew, route=toRoute)
+def indexTemplate(notes, toRoute):
+    output = template('index.tpl', rows=notes, route=toRoute)
     return output
 
 def getSession():
