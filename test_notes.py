@@ -84,14 +84,17 @@ class TestWebserver():
         assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_login(self):
-        result = self.bottle.post('/login', {'user': 'xorrr'})
+        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
         assert result.status_int == 200
 
         result = self.bottle.post('/login', {'user': 'xor'}, status=404)
         assert result.status_int == 404
 
+        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'wrong'}, status=404)
+        assert result.status_int == 404
+
     def test_logout(self):
-        result = self.bottle.post('/login', {'user': 'xorrr'})
+        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
         result = self.bottle.get('/login')
 
         assert result.body == 'Logged in as: xorrr'
@@ -103,7 +106,7 @@ class TestWebserver():
         assert result.body == 'You are not logged in'
 
     def test_session(self):
-        result = self.bottle.post('/login', {'user': 'xorrr'})
+        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
         result = self.bottle.get('/login')
 
         assert result.body == 'Logged in as: xorrr'

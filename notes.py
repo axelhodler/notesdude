@@ -5,6 +5,7 @@ import dbaccessor
 
 DB = 'notes.db'
 USERNAME = 'xorrr'
+PASSWORD = 'test'
 
 session_opts = {
     'session.type': 'file',
@@ -63,7 +64,7 @@ def delete_note(id):
 
 @app.route('/login', method='POST')
 def login():
-    if request.forms.get('user') == USERNAME:
+    if request.forms.get('user') == USERNAME and request.forms.get('password') == PASSWORD:
         s = getSession()
         s['user'] = request.forms.get('user')
         response.status = 200
