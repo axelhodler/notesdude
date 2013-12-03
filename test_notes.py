@@ -8,6 +8,9 @@ import dbaccessor
 DB = 'notes.db'
 
 class TestWebserver():
+    def login(self):
+        return self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
+
     def setUp(self):
         self.bottle = TestApp(notes.session)
         self.dba = dbaccessor.DbAccessor(DB)
@@ -84,7 +87,7 @@ class TestWebserver():
         assert 'href="../static/css/bootstrap.min.css"' in result
 
     def test_login(self):
-        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
+        result = self.login()
         assert result.status_int == 200
 
         result = self.bottle.post('/login', {'user': 'xor'}, status=404)
@@ -94,7 +97,7 @@ class TestWebserver():
         assert result.status_int == 404
 
     def test_logout(self):
-        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
+        result = self.login()
         result = self.bottle.get('/login')
 
         assert result.body == 'Logged in as: xorrr'
@@ -106,7 +109,7 @@ class TestWebserver():
         assert result.body == 'You are not logged in'
 
     def test_session(self):
-        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
+        result = self.login()
         result = self.bottle.get('/login')
 
         assert result.body == 'Logged in as: xorrr'
