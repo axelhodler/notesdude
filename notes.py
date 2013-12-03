@@ -82,9 +82,7 @@ def logout():
     logged_in = 'user' in session
     if logged_in:
         session.delete()
-        return 'Successfully logged out'
-    else:
-        return 'You are not logged in'
+        redirect('/')
 
 def indexTemplate(notes, user, toRoute):
     output = template('index.tpl', rows=notes, user=user, route=toRoute)

@@ -112,10 +112,7 @@ class TestWebserver():
         assert result.body == 'Logged in as: xorrr'
 
         result = self.bottle.get('/logout')
-        assert result.body == 'Successfully logged out'
-
-        result = self.bottle.get('/logout')
-        assert result.body == 'You are not logged in'
+        assert result.status_int == 302
 
     def test_logout_button(self):
         result = self.login()
@@ -125,6 +122,16 @@ class TestWebserver():
         logout_form = forms[0]
 
         assert logout_form.action == '/logout'
+
+        logout_form.submit()
+
+        result = self.bottle.get('/')
+
+        forms = result.forms
+
+        login_form = forms[0]
+        assert login_form.action == '/login'
+        assert login_form.method == 'POST'
 
     def test_session(self):
         result = self.login()
