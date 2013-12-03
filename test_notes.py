@@ -46,7 +46,8 @@ class TestWebserver():
         result = self.bottle.get('/')
 
         # dont show the login part if you are already logged in
-        assert len(result.forms) == 3
+        # but show the button
+        assert len(result.forms) == 4
 
     def test_adding_new_note(self):
         result = self.bottle.get('/')
@@ -115,6 +116,15 @@ class TestWebserver():
 
         result = self.bottle.get('/logout')
         assert result.body == 'You are not logged in'
+
+    def test_logout_button(self):
+        result = self.login()
+        result = self.bottle.get('/')
+
+        forms = result.forms
+        logout_form = forms[0]
+
+        assert logout_form.action == '/logout'
 
     def test_session(self):
         result = self.login()

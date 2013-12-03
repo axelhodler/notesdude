@@ -18,7 +18,9 @@
     </div>
   </div>
   %else:
-  <h1>User: {{user}}</h1>
+  <p>User: {{user}} <form action="/logout">
+            <input class="btn btn-danger btn-xs" type="submit" value="logout">
+  </form></p>
   %end
   <h1>Notes</h1>
   <div class="row">
