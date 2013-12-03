@@ -28,7 +28,7 @@ class TestWebserver():
         assert 'href="static/css/bootstrap.min.css"' in result
 
     def test_route_new(self):
-        result = self.bottle.get('/new')
+        result = self.bottle.get('/')
         assert result.status == '200 OK'
         form = result.form
         assert form.action == '/new'
@@ -36,18 +36,16 @@ class TestWebserver():
         assert form['title'].value == ''
         assert form['content'].value == ''
 
-        assert 'href="../static/css/bootstrap.min.css"' in result
+        assert 'href="static/css/bootstrap.min.css"' in result
 
     def test_adding_new_note(self):
-        result = self.bottle.get('/new')
+        result = self.bottle.get('/')
         form = result.form
         form['title'] = "testtitle"
         form['content'] = "testcontent"
 
         result = form.submit('save')
-        assert result.status == '200 OK'
-
-        # check if has been added to the DB
+        assert result.status_int == 302
 
         notes = self.dba.getAllNotes()
 
@@ -56,8 +54,10 @@ class TestWebserver():
         assert notes[0].get('title') == 'testtitle'
         assert notes[0].get('content') == 'testcontent'
 
+        result = self.bottle.get('/')
+
         assert '<h1>Notes</h1>' in result
-        assert 'href="../static/css/bootstrap.min.css"' in result
+        assert 'href="static/css/bootstrap.min.css"' in result
 
     def test_accessing_static_file(self):
         result = self.bottle.get('/static/css/bootstrap.min.css')
@@ -71,7 +71,7 @@ class TestWebserver():
         assert result.body == 'Nothing here, sorry'
 
     def test_index_new_button(self):
-        result = self.bottle.get('/new')
+        result = self.bottle.get('/')
         forms = result.forms
         assert forms[0].action == '/new'
 

@@ -1,4 +1,4 @@
-from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response
+from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response, redirect
 from beaker.middleware import SessionMiddleware
 import bottle
 import dbaccessor
@@ -35,13 +35,6 @@ def index():
 
     return indexTemplate(notes, False, '')
 
-@app.route('/new', method='GET')
-def new():
-    dba = dbaccessor.DbAccessor(DB)
-    notes = dba.getAllNotes()
-
-    return indexTemplate(notes, True, '../')
-
 @app.route('/new', method='POST')
 def new():
     if request.POST.get('save','').strip():
@@ -51,8 +44,7 @@ def new():
         dba = dbaccessor.DbAccessor(DB)
         dba.addNote(title, content)
 
-        notes = dba.getAllNotes()
-        return indexTemplate(notes, False, '../')
+        redirect("/")
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):
