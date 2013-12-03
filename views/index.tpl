@@ -46,6 +46,7 @@
       </table>
     </div>
     <div class="col-md-4">
+%if user is not None:
       <div class="panel panel-default">
         <div class="panel-body">
           <form role="form" action="/new" method="POST">
@@ -61,6 +62,9 @@
           </form>
         </div>
       </div>
+%else:
+      <h2>Login to add notes</h2>
+%end
     </div>
   </div>
 </div>

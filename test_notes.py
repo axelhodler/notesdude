@@ -29,14 +29,10 @@ class TestWebserver():
 
         assert 'href="static/css/bootstrap.min.css"' in result
 
-        form = result.forms
+        all_forms = result.forms
+        assert len(all_forms) == 3
 
-        assert form[3].action == '/new'
-        assert form[3].method == 'POST'
-        assert form[3]['title'].value == ''
-        assert form[3]['content'].value == ''
-
-        login_form = form[0]
+        login_form = all_forms[0]
         assert login_form.action == '/login'
         assert login_form.method == 'POST'
         assert login_form['user'].value == ''
@@ -49,7 +45,15 @@ class TestWebserver():
         # but show the button
         assert len(result.forms) == 4
 
+        forms = result.forms
+        assert forms[3].action == '/new'
+        assert forms[3].method == 'POST'
+        assert forms[3]['title'].value == ''
+        assert forms[3]['content'].value == ''
+
+
     def test_adding_new_note(self):
+        self.login()
         result = self.bottle.get('/')
         new_note_form = result.forms[1]
         new_note_form['title'] = "testtitle"
@@ -82,6 +86,7 @@ class TestWebserver():
         assert result.body == 'Nothing here, sorry'
 
     def test_index_new_button(self):
+        self.login()
         result = self.bottle.get('/')
         forms = result.forms
         assert forms[1].action == '/new'
