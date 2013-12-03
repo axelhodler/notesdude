@@ -97,6 +97,9 @@ class TestWebserver():
     def test_deleting_note(self):
         self.dba.addNote('eins', 'lorem ipsum')
 
+        result = self.bottle.get('/')
+        assert 'value="Delete Note" disabled="disabled">' in result
+
         result = self.bottle.get('/delete/1', status=404)
         assert result.status_int == 404
 

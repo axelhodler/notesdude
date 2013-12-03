@@ -37,8 +37,14 @@
           <td>{{row.get('id')}}</td>
           <td>{{row.get('title')}}</td>
           <td>{{row.get('content')}}</td>
+
+
           <td><form action="/delete/{{row.get('id')}}">
+          %if user is not None:
               <input class="btn btn-danger btn-xs" type="submit" value="Delete Note">
+          %else:
+              <input class="btn btn-danger btn-xs" type="submit" value="Delete Note" disabled="disabled">
+          %end
             </form>
           </td>
         </tr>
