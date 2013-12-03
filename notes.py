@@ -59,7 +59,7 @@ def login():
     if request.forms.get('user') == USERNAME and request.forms.get('password') == PASSWORD:
         s = getSession()
         s['user'] = request.forms.get('user')
-        response.status = 200
+        redirect("/")
     else:
         response.status = 404
 
