@@ -1,5 +1,21 @@
 % rebase layout route_prefix=route
 <div class="container">
+  <h1>Login:</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form role="form" action="/login" method="POST">
+        <div class="form-group">
+          <label for="user">Username:</label>
+          <input type="user" class="form-control" id="user" placeholder="Enter username" name="user">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="save" name="save">
+      </form>
+    </div>
+  </div>
   <h1>Notes</h1>
   <div class="row">
     <div class="col-md-8">

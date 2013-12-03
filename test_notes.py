@@ -16,6 +16,8 @@ class TestWebserver():
         self.dba = dbaccessor.DbAccessor(DB)
 
     def test_route_index(self):
+        # after adding these two 4 forms will exist (two delete buttons, the
+        # login and the add form
         self.dba.addNote('eins', 'lorem ipsum')
         self.dba.addNote('zwei', 'blabla')
 
@@ -28,18 +30,25 @@ class TestWebserver():
         assert 'href="static/css/bootstrap.min.css"' in result
 
         form = result.forms
-        assert form[2].action == '/new'
-        assert form[2].method == 'POST'
-        assert form[2]['title'].value == ''
-        assert form[2]['content'].value == ''
+
+        assert form[3].action == '/new'
+        assert form[3].method == 'POST'
+        assert form[3]['title'].value == ''
+        assert form[3]['content'].value == ''
+
+        login_form = form[0]
+        assert login_form.action == '/login'
+        assert login_form.method == 'POST'
+        assert login_form['user'].value == ''
+        assert login_form['password'].value == ''
 
     def test_adding_new_note(self):
         result = self.bottle.get('/')
-        form = result.form
-        form['title'] = "testtitle"
-        form['content'] = "testcontent"
+        new_note_form = result.forms[1]
+        new_note_form['title'] = "testtitle"
+        new_note_form['content'] = "testcontent"
 
-        result = form.submit('save')
+        result = new_note_form.submit('save')
         assert result.status_int == 302
 
         notes = self.dba.getAllNotes()
@@ -68,9 +77,9 @@ class TestWebserver():
     def test_index_new_button(self):
         result = self.bottle.get('/')
         forms = result.forms
-        assert forms[0].action == '/new'
+        assert forms[1].action == '/new'
 
-        result = forms[0].submit()
+        result = forms[1].submit()
         assert result.status == '200 OK'
 
     def test_deleting_note(self):
