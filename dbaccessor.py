@@ -7,7 +7,7 @@ class DbAccessor():
         self.cur = self.con.cursor()
         self.cur.execute('CREATE TABLE IF NOT EXISTS Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
 
-    def getAllNotes(self):
+    def get_all_notes(self):
         ''' returns a list with tuples '''
         self.cur.execute('SELECT * FROM Notes')
         rows = self.cur.fetchall()
@@ -22,16 +22,16 @@ class DbAccessor():
 
         return notes
 
-    def addNote(self, title, content):
+    def add_note(self, title, content):
         note = (title, content)
         self.cur.execute('INSERT INTO Notes(Title, Content) VALUES(?,?)', note)
 
         self.con.commit()
 
-    def deleteNote(self, id):
+    def delete_note(self, id):
         self.cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
 
         self.con.commit()
 
-    def getCursor(self):
+    def get_cursor(self):
         return self.cur

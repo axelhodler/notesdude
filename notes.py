@@ -29,16 +29,16 @@ def error404(error):
 
 @app.route('/')
 def index():
-    session = getSession()
+    session = get_session()
     logged_in = 'user' in session
 
     dba = dbaccessor.DbAccessor(DB)
-    notes = dba.getAllNotes()
+    notes = dba.get_all_notes()
 
     if logged_in:
-        return indexTemplate(notes, session['user'], '')
+        return index_template(notes, session['user'], '')
     else:
-        return indexTemplate(notes, None, '')
+        return index_template(notes, None, '')
 
 @app.route('/new', method='POST')
 def new():
@@ -47,17 +47,17 @@ def new():
         content = request.POST.get('content','').strip()
 
         dba = dbaccessor.DbAccessor(DB)
-        dba.addNote(title, content)
+        dba.add_note(title, content)
 
         redirect("/")
 
 @app.route('/delete/:id', method='GET')
 def delete_note(id):
-    session = getSession()
+    session = get_session()
     logged_in = 'user' in session
     if logged_in:
         dba = dbaccessor.DbAccessor(DB)
-        dba.deleteNote(id)
+        dba.delete_note(id)
         redirect("/")
     else:
         response.status = 404
@@ -65,7 +65,7 @@ def delete_note(id):
 @app.route('/login', method='POST')
 def login():
     if request.forms.get('user') == USERNAME and request.forms.get('password') == PASSWORD:
-        s = getSession()
+        s = get_session()
         s['user'] = request.forms.get('user')
         redirect("/")
     else:
@@ -73,7 +73,7 @@ def login():
 
 @app.route('/login', method='GET')
 def login():
-    session = getSession()
+    session = get_session()
     logged_in = 'user' in session
     if logged_in:
         return 'Logged in as: %s' % session['user']
@@ -82,17 +82,17 @@ def login():
 
 @app.route('/logout', method='GET')
 def logout():
-    session = getSession()
+    session = get_session()
     logged_in = 'user' in session
     if logged_in:
         session.delete()
         redirect('/')
 
-def indexTemplate(notes, user, toRoute):
+def index_template(notes, user, toRoute):
     output = template('index.tpl', rows=notes, user=user, route=toRoute)
     return output
 
-def getSession():
+def get_session():
     return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':

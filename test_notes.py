@@ -18,8 +18,8 @@ class TestWebserver():
     def test_route_index(self):
         # after adding these two 4 forms will exist (two delete buttons, the
         # login and the add form
-        self.dba.addNote('eins', 'lorem ipsum')
-        self.dba.addNote('zwei', 'blabla')
+        self.dba.add_note('eins', 'lorem ipsum')
+        self.dba.add_note('zwei', 'blabla')
 
         result = self.bottle.get('/')
 
@@ -62,7 +62,7 @@ class TestWebserver():
         result = new_note_form.submit('save')
         assert result.status_int == 302
 
-        notes = self.dba.getAllNotes()
+        notes = self.dba.get_all_notes()
 
         assert len(notes) == 1
         assert notes[0].get('id') == 1
@@ -95,7 +95,7 @@ class TestWebserver():
         assert result.status == '200 OK'
 
     def test_deleting_note(self):
-        self.dba.addNote('eins', 'lorem ipsum')
+        self.dba.add_note('eins', 'lorem ipsum')
 
         result = self.bottle.get('/')
         assert 'value="Delete Note" disabled="disabled">' in result
