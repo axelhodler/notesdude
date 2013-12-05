@@ -1,4 +1,4 @@
-% rebase layout route_prefix=route
+% rebase layout
 <div class="container">
   %if user is None:
   <h1>Login:</h1>

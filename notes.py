@@ -17,8 +17,6 @@ SESSION_OPTS = {
 APP = Bottle()
 SESSION = SessionMiddleware(APP, SESSION_OPTS)
 
-SimpleTemplate.defaults["get_url"] = APP.get_url
-
 @APP.route('/static/<filepath:path>', name='static')
 def server_static(filepath):
     return static_file(filepath, root='static')
@@ -36,9 +34,9 @@ def index():
     notes = dba.get_all_notes()
 
     if logged_in:
-        return index_template(notes, session['user'], '')
+        return index_template(notes, session['user'])
     else:
-        return index_template(notes, None, '')
+        return index_template(notes, None)
 
 @APP.route('/new', method='POST')
 def new():
@@ -88,8 +86,8 @@ def logout():
         session.delete()
         redirect('/')
 
-def index_template(notes, user, to_route):
-    output = template('index.tpl', rows=notes, user=user, route=to_route)
+def index_template(notes, user):
+    output = template('index.tpl', rows=notes, user=user)
     return output
 
 def get_session():
