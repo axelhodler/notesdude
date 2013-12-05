@@ -28,8 +28,8 @@
       <table class="table table-condensed">
         <tr>
           <th>Id</th>
-          <th>Title</th>
-          <th>Note</th>
+          <th class="col-md-3">Title</th>
+          <th class="col-md-5">Note</th>
           <th>Action</th>
         </tr>
         %for row in rows:
@@ -37,8 +37,6 @@
           <td>{{row.get('id')}}</td>
           <td>{{row.get('title')}}</td>
           <td>{{row.get('content')}}</td>
-
-
           <td><form action="/delete/{{row.get('id')}}">
           %if user is not None:
               <input class="btn btn-danger btn-xs" type="submit" value="Delete Note">
