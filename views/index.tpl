@@ -1,27 +1,39 @@
 % rebase layout
-<div class="container">
-  %if user is None:
-  <h1>Login:</h1>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <form role="form" action="/login" method="POST">
-        <div class="form-group">
-          <label for="user">Username:</label>
-          <input type="user" class="form-control" id="user" placeholder="Enter username" name="user">
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
-        </div>
-        <input class="btn btn-primary" type="submit" value="save" name="save">
-      </form>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Project name</a>
     </div>
+    <div class="navbar-collapse collapse">
+%if user is None:
+      <form class="navbar-form navbar-right" role="form" action="/login" method="POST">
+        <div class="form-group">
+          <input id="user" type="text" placeholder="User" name="user" class="form-control">
+        </div>
+        <div class="form-group">
+          <input id="password" type="password" placeholder="Password" name="password" class="form-control">
+        </div>
+        <button type="submit" value="save" name="save" class="btn btn-success">Sign in</button>
+      </form>
+%else:
+      <ul class="nav navbar-nav navbar-right">
+            <li>{{user}}</li>
+            <li><form action="/logout">
+          <input class="btn btn-primary" type="submit" value="logout">
+      </form></li>
+      </ul>
+%end
+    </div><!--/.navbar-collapse -->
   </div>
-  %else:
-  <p>User: {{user}} <form action="/logout">
-            <input class="btn btn-danger btn-xs" type="submit" value="logout">
-  </form></p>
-  %end
+</div>
+
+<div class="container">
   <h1>Notes</h1>
   <div class="row">
     <div class="col-md-8">
