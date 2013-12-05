@@ -94,4 +94,4 @@ def get_session():
     return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':
-    bottle.run(APP=session)
+    bottle.run(app=SESSION)
