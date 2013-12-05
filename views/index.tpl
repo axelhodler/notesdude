@@ -19,7 +19,7 @@
         <div class="form-group">
           <input id="password" type="password" placeholder="Password" name="password" class="form-control">
         </div>
-        <button type="submit" value="save" name="save" class="btn btn-success">Sign in</button>
+        <button type="submit" class="btn btn-success">Sign in</button>
       </form>
 %else:
       <ul class="nav navbar-nav navbar-right">
