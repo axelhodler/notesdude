@@ -12,7 +12,7 @@ class TestWebserver():
         return self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
 
     def setUp(self):
-        self.bottle = TestApp(notes.session)
+        self.bottle = TestApp(notes.SESSION)
         self.dba = dbaccessor.DbAccessor(DB)
 
     def test_route_index(self):

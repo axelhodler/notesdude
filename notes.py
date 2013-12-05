@@ -7,27 +7,27 @@ DB = 'notes.db'
 USERNAME = 'xorrr'
 PASSWORD = 'test'
 
-session_opts = {
+SESSION_OPTS = {
     'session.type': 'file',
     'session.cookie_expires': 300,
     'session.data_dir': './data',
     'session.auto': True
 }
 
-app = Bottle()
-session = SessionMiddleware(app, session_opts)
+APP = Bottle()
+SESSION = SessionMiddleware(APP, SESSION_OPTS)
 
-SimpleTemplate.defaults["get_url"] = app.get_url
+SimpleTemplate.defaults["get_url"] = APP.get_url
 
-@app.route('/static/<filepath:path>', name='static')
+@APP.route('/static/<filepath:path>', name='static')
 def server_static(filepath):
     return static_file(filepath, root='static')
 
-@app.error(404)
+@APP.error(404)
 def error404(error):
     return 'Nothing here, sorry'
 
-@app.route('/')
+@APP.route('/')
 def index():
     session = get_session()
     logged_in = 'user' in session
@@ -40,7 +40,7 @@ def index():
     else:
         return index_template(notes, None, '')
 
-@app.route('/new', method='POST')
+@APP.route('/new', method='POST')
 def new():
     if request.POST.get('save','').strip():
         title = request.POST.get('title','').strip()
@@ -51,27 +51,27 @@ def new():
 
         redirect("/")
 
-@app.route('/delete/:id', method='GET')
-def delete_note(id):
+@APP.route('/delete/:note_id', method='GET')
+def delete_note(note_id):
     session = get_session()
     logged_in = 'user' in session
     if logged_in:
         dba = dbaccessor.DbAccessor(DB)
-        dba.delete_note(id)
+        dba.delete_note(note_id)
         redirect("/")
     else:
         response.status = 404
 
-@app.route('/login', method='POST')
+@APP.route('/login', method='POST')
 def login():
     if request.forms.get('user') == USERNAME and request.forms.get('password') == PASSWORD:
-        s = get_session()
-        s['user'] = request.forms.get('user')
+        session = get_session()
+        session['user'] = request.forms.get('user')
         redirect("/")
     else:
         response.status = 404
 
-@app.route('/login', method='GET')
+@APP.route('/login', method='GET')
 def login():
     session = get_session()
     logged_in = 'user' in session
@@ -80,7 +80,7 @@ def login():
     else:
         return 'You are not logged in'
 
-@app.route('/logout', method='GET')
+@APP.route('/logout', method='GET')
 def logout():
     session = get_session()
     logged_in = 'user' in session
@@ -88,12 +88,12 @@ def logout():
         session.delete()
         redirect('/')
 
-def index_template(notes, user, toRoute):
-    output = template('index.tpl', rows=notes, user=user, route=toRoute)
+def index_template(notes, user, to_route):
+    output = template('index.tpl', rows=notes, user=user, route=to_route)
     return output
 
 def get_session():
     return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':
-    bottle.run(app=session)
+    bottle.run(APP=session)
