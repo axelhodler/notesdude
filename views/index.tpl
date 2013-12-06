@@ -66,7 +66,7 @@
               <input type="title" class="form-control" id="title" placeholder="Title" name="title">
             </div>
             <div class="form-group">
-              <input type="content" class="form-control" id="content" placeholder="Title" name="content">
+              <input type="content" class="form-control" id="content" placeholder="Content" name="content">
             </div>
             <input class="btn btn-success pull-right" type="submit" value="Save Note" name="save">
           </form>
