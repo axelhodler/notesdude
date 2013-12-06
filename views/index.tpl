@@ -11,6 +11,9 @@
       <a class="navbar-brand" href="#">Notesdude</a>
     </div>
     <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="https://github.com/xorrr/notesdude">Source</a></li>
+      </ul>
 %if user is None:
       <form class="navbar-form navbar-right" role="form" action="/login" method="POST">
         <div class="form-group">
