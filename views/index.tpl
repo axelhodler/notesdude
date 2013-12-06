@@ -58,20 +58,19 @@
         %end
       </table>
     </div>
-    <div class="col-md-4">
+  <div class="col-md-4">
 %if user is not None:
       <div class="panel panel-default">
+        <div class="panel-heading">Add Note</div>
         <div class="panel-body">
           <form role="form" action="/new" method="POST">
             <div class="form-group">
-              <label for="title">Title:</label>
-              <input type="title" class="form-control" id="title" placeholder="Enter title" name="title">
+              <input type="title" class="form-control" id="title" placeholder="Title" name="title">
             </div>
             <div class="form-group">
-              <label for="content">Note:</label>
-              <input type="content" class="form-control" id="content" placeholder="Enter note" name="content">
+              <input type="content" class="form-control" id="content" placeholder="Note" name="content">
             </div>
-            <input class="btn btn-primary" type="submit" value="save" name="save">
+            <input class="btn btn-primary" type="submit" value="Save Note" name="save">
           </form>
         </div>
       </div>
