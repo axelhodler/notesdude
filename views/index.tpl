@@ -70,7 +70,7 @@
             <div class="form-group">
               <input type="content" class="form-control" id="content" placeholder="Note" name="content">
             </div>
-            <input class="btn btn-primary" type="submit" value="Save Note" name="save">
+            <input class="btn btn-success pull-right" type="submit" value="Save Note" name="save">
           </form>
         </div>
       </div>
