@@ -8,7 +8,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Project name</a>
+      <a class="navbar-brand" href="#">Notesdude</a>
     </div>
     <div class="navbar-collapse collapse">
 %if user is None:
@@ -31,9 +31,9 @@
 </div>
 
 <div class="container">
-  <h1>Notes</h1>
   <div class="row">
     <div class="col-md-8">
+      <h1>Notes</h1>
       <table class="table">
         <tr>
           <th class="col-md-3">Title</th>
@@ -46,9 +46,9 @@
           <td>{{row.get('content')}}</td>
           <td><form action="/delete/{{row.get('id')}}">
           %if user is not None:
-              <input class="btn btn-danger btn-xs" type="submit" value="Delete Note">
+              <input class="btn btn-danger btn-xs pull-right" type="submit" value="Delete Note">
           %else:
-              <input class="btn btn-danger btn-xs" type="submit" value="Delete Note" disabled="disabled">
+              <input class="btn btn-danger btn-xs pull-right" type="submit" value="Delete Note" disabled="disabled">
           %end
             </form>
           </td>
@@ -66,14 +66,16 @@
               <input type="title" class="form-control" id="title" placeholder="Title" name="title">
             </div>
             <div class="form-group">
-              <input type="content" class="form-control" id="content" placeholder="Note" name="content">
+              <input type="content" class="form-control" id="content" placeholder="Title" name="content">
             </div>
             <input class="btn btn-success pull-right" type="submit" value="Save Note" name="save">
           </form>
         </div>
       </div>
 %else:
-      <h2>Login to add notes</h2>
+      <div class="panel panel-default">
+        <div class="panel-heading">Sign in to add notes</div>
+      </div>
 %end
     </div>
   </div>
