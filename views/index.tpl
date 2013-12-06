@@ -37,7 +37,7 @@
       <table class="table">
         <tr>
           <th class="col-md-3">Title</th>
-          <th class="col-md-5">Note</th>
+          <th class="col-md-5">Content</th>
           <th></th>
         </tr>
         %for row in rows:
