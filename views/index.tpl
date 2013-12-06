@@ -34,16 +34,14 @@
   <h1>Notes</h1>
   <div class="row">
     <div class="col-md-8">
-      <table class="table table-condensed">
+      <table class="table">
         <tr>
-          <th>Id</th>
           <th class="col-md-3">Title</th>
           <th class="col-md-5">Note</th>
-          <th>Action</th>
+          <th></th>
         </tr>
         %for row in rows:
         <tr>
-          <td>{{row.get('id')}}</td>
           <td>{{row.get('title')}}</td>
           <td>{{row.get('content')}}</td>
           <td><form action="/delete/{{row.get('id')}}">
