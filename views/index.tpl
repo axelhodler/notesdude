@@ -22,12 +22,9 @@
         <button type="submit" class="btn btn-success">Sign in</button>
       </form>
 %else:
-      <ul class="nav navbar-nav navbar-right">
-            <li>{{user}}</li>
-            <li><form action="/logout">
-          <input class="btn btn-primary" type="submit" value="logout">
-      </form></li>
-      </ul>
+      <form class="navbar-form navbar-right" role="form" action="/logout">
+        <button type="submit" class="btn btn-primary" value="logout">Logout</button>
+      </form>
 %end
     </div><!--/.navbar-collapse -->
   </div>
