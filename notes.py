@@ -1,5 +1,6 @@
 from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response, redirect
 from beaker.middleware import SessionMiddleware
+import os
 import bottle
 import dbaccessor
 
@@ -94,4 +95,4 @@ def get_session():
     return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':
-    bottle.run(app=SESSION)
+    bottle.run(app=SESSION, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
