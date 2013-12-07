@@ -6,7 +6,8 @@ framework while using TDD
 # virtualenv
 To create the virtual environment and load the requirements with pip use:
 
-    virtualenv --no-site-packages --distribute .env && source .env/bin/activate && pip install -r requirements.txt
+    virtualenv --no-site-packages --distribute .env &&
+    source .env/bin/activate && pip install -r requirements.txt
 
 ## Tests
 
