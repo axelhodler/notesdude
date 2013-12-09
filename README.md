@@ -16,3 +16,6 @@ To create the virtual environment and load the requirements with pip use:
 To run the tests use:
 
     ./run_tests.sh
+
+## License
+MIT
