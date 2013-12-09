@@ -11,6 +11,20 @@ class TestWebserver():
     def login(self):
         return self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
 
+    def check_index_route_after_login(self):
+        result = self.login()
+        result = self.bottle.get('/')
+
+        # dont show the login part if you are already logged in
+        # but show the button
+        assert len(result.forms) == 4
+
+        forms = result.forms
+        assert forms[3].action == '/new'
+        assert forms[3].method == 'POST'
+        assert forms[3]['title'].value == ''
+        assert forms[3]['content'].value == ''
+
     def setUp(self):
         self.bottle = TestApp(notes.SESSION)
         self.dba = dbaccessor.DbAccessor(DB)
@@ -38,19 +52,7 @@ class TestWebserver():
         assert login_form['user'].value == ''
         assert login_form['password'].value == ''
 
-        result = self.login()
-        result = self.bottle.get('/')
-
-        # dont show the login part if you are already logged in
-        # but show the button
-        assert len(result.forms) == 4
-
-        forms = result.forms
-        assert forms[3].action == '/new'
-        assert forms[3].method == 'POST'
-        assert forms[3]['title'].value == ''
-        assert forms[3]['content'].value == ''
-
+        self.check_index_route_after_login()
 
     def test_adding_new_note(self):
         self.login()
