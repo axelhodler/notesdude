@@ -1,4 +1,0 @@
--One user can add and edit notes
---to add the note he has to login
--a note consists of an id, a title and the note itself
--notes are shown on the mainpage
