@@ -3,10 +3,11 @@ from beaker.middleware import SessionMiddleware
 import os
 import bottle
 import dbaccessor
+import ConfigParser
 
 DB = 'notes.db'
-USERNAME = 'xorrr'
-PASSWORD = 'test'
+
+CONFIG_FILE = 'user.cfg'
 
 SESSION_OPTS = {
     'session.type': 'file',
@@ -63,7 +64,10 @@ def delete_note(note_id):
 
 @APP.route('/login', method='POST')
 def login():
-    if request.forms.get('user') == USERNAME and request.forms.get('password') == PASSWORD:
+    config = ConfigParser.RawConfigParser()
+    config.read(CONFIG_FILE)
+    config_section = config.sections()[0]
+    if request.forms.get('user') == config.get(config_section, 'username') and request.forms.get('password') == config.get(config_section, 'password'):
         session = get_session()
         session['user'] = request.forms.get('user')
         redirect("/")

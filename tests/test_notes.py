@@ -1,15 +1,21 @@
 from webtest import TestApp
 import os
 import re
+import ConfigParser
 
 import notes
 import dbaccessor
 
 DB = 'notes.db'
+CONFIG_FILE = 'user.cfg'
 
 class TestWebserver():
     def login(self):
-        return self.bottle.post('/login', {'user': 'xorrr', 'password': 'test'})
+        config = ConfigParser.RawConfigParser()
+        config.read(CONFIG_FILE)
+        section = config.sections()[0]
+
+        return self.bottle.post('/login', {'user': config.get(section, 'username'), 'password': config.get(section, 'password')})
 
     def check_index_route_after_login(self):
         result = self.login()
@@ -123,7 +129,7 @@ class TestWebserver():
         result = self.login()
         result = self.bottle.get('/login')
 
-        assert result.body == 'Logged in as: xorrr'
+        assert 'Logged in as: ' in result.body
 
         result = self.bottle.get('/logout')
         assert result.status_int == 302
@@ -151,11 +157,11 @@ class TestWebserver():
         result = self.login()
         result = self.bottle.get('/login')
 
-        assert result.body == 'Logged in as: xorrr'
+        assert 'Logged in as: ' in result.body
 
         result = self.bottle.get('/login')
 
-        assert result.body == 'Logged in as: xorrr'
+        assert 'Logged in as: ' in result.body
 
     def tearDown(self):
         if os.path.isfile(DB):
