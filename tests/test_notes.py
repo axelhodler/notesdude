@@ -17,6 +17,9 @@ class TestWebserver():
 
         return self.bottle.post('/login', {'user': config.get(section, 'username'), 'password': config.get(section, 'password')})
 
+    def check_if_logged_in(self, result):
+        assert 'Logged in as: ' in result.body
+
     def check_index_route_after_login(self):
         result = self.login()
         result = self.bottle.get('/')
@@ -129,7 +132,7 @@ class TestWebserver():
         result = self.login()
         result = self.bottle.get('/login')
 
-        assert 'Logged in as: ' in result.body
+        self.check_if_logged_in(result)
 
         result = self.bottle.get('/logout')
         assert result.status_int == 302
@@ -157,11 +160,11 @@ class TestWebserver():
         result = self.login()
         result = self.bottle.get('/login')
 
-        assert 'Logged in as: ' in result.body
+        self.check_if_logged_in(result)
 
         result = self.bottle.get('/login')
 
-        assert 'Logged in as: ' in result.body
+        self.check_if_logged_in(result)
 
     def tearDown(self):
         if os.path.isfile(DB):
