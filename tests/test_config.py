@@ -14,3 +14,10 @@ class TestConfigFile():
             assert True
         except ConfigParser.MissingSectionHeaderError:
             assert False, "the config file does not use a header part"
+
+    def test_if_config_values_exist(self):
+        config = ConfigParser.RawConfigParser()
+        config.read(CONFIG_FILE)
+        header = config.sections()[0]
+        assert config.get(header, 'username') != ''
+        assert config.get(header, 'password') != ''
