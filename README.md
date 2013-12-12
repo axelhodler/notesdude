@@ -17,5 +17,9 @@ To run the tests use:
 
     ./run_tests.sh
 
+## Deployment
+### Switch to PostgreSQL
+SQLite backs up its data store in files on disk. Heroku will clear the contents of the app periodically and any files written will be discarded the moment the dyno is stopped or restarted. Therefore we're going to switch to PostgreSQL.
+
 ## License
 MIT
