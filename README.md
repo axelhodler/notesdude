@@ -21,5 +21,14 @@ To run the tests use:
 ### Switch to PostgreSQL
 SQLite backs up its data store in files on disk. Heroku will clear the contents of the app periodically and any files written will be discarded the moment the dyno is stopped or restarted. Therefore we're going to switch to PostgreSQL.
 
+### WIP
+single out tests by using the following command:
+
+    nosetests <file>:<Test_Case>.<test_method>
+
+e.g.
+
+    nosetests tests/test_dbaccessor.py:TestDbAccessor.test_connection
+
 ## License
 MIT

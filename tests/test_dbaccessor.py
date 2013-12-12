@@ -1,20 +1,22 @@
 from webtest import TestApp
 
-import sqlite3
+import psycopg2
 import os
 
 import dbaccessor
 
-DB = 'test.db'
+DB = 'test'
+USER = 'xorrr'
 
 class TestDbAccessor():
     def setUp(self):
-        self.con = sqlite3.connect(DB)
+        self.con = psycopg2.connect(database=DB, user=USER)
         self.cur = self.con.cursor()
-        self.cur.execute('DROP TABLE IF EXISTS Notes')
-        self.cur.execute('CREATE TABLE Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
 
-        self.dba = dbaccessor.DbAccessor(DB)
+    def test_connection(self):
+        self.cur.execute("SELECT version()")
+        version = self.cur.fetchone()
+        assert version[0] == 'PostgreSQL 9.3.2 on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 4.8.2, 64-bit'
 
     def test_adding_note(self):
         self.dba.add_note('testtitle', 'testcontent')
@@ -56,6 +58,4 @@ class TestDbAccessor():
         assert isinstance(cursor, sqlite3.Cursor)
 
     def tearDown(self):
-        self.cur.execute('DROP TABLE IF EXISTS Notes')
         self.con.close()
-        os.remove(DB)
