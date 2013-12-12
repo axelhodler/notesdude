@@ -1,11 +1,11 @@
-import sqlite3
+import psycopg2
 import os
 
 class DbAccessor():
-    def __init__(self, db_file_name):
-        self.con = sqlite3.connect(db_file_name)
+    def __init__(self, db_name, user_name):
+        self.con = psycopg2.connect(database=db_name, user=user_name)
         self.cur = self.con.cursor()
-        self.cur.execute('CREATE TABLE IF NOT EXISTS Notes(Id INTEGER PRIMARY KEY, Title TEXT, Content TEXT)')
+        self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY KEY, Title TEXT, Content TEXT)")
 
     def get_all_notes(self):
         ''' returns a list with tuples '''
@@ -24,8 +24,8 @@ class DbAccessor():
 
     def add_note(self, title, content):
         note = (title, content)
-        self.cur.execute('INSERT INTO Notes(Title, Content) VALUES(?,?)', note)
-
+        query = "INSERT INTO Notes(Title, Content) VALUES(%s, %s)"
+        self.cur.execute(query, note)
         self.con.commit()
 
     def delete_note(self, id):

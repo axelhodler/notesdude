@@ -19,6 +19,7 @@ class TestDbAccessor():
         assert version[0] == 'PostgreSQL 9.3.2 on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 4.8.2, 64-bit'
 
     def test_adding_note(self):
+        self.dba = dbaccessor.DbAccessor(DB, USER)
         self.dba.add_note('testtitle', 'testcontent')
 
         self.cur.execute('SELECT * FROM Notes')
