@@ -59,4 +59,6 @@ class TestDbAccessor():
         assert isinstance(cursor, sqlite3.Cursor)
 
     def tearDown(self):
+        self.cur.execute("DROP TABLE IF EXISTS Notes")
+        self.con.commit()
         self.con.close()
