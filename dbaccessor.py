@@ -30,7 +30,6 @@ class DbAccessor():
 
     def delete_note(self, id):
         self.cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
-
         self.con.commit()
 
     def get_cursor(self):

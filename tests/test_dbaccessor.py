@@ -30,6 +30,7 @@ class TestDbAccessor():
         assert rows[2] == 'testcontent'
 
     def test_deleting_note(self):
+        self.dba = dbaccessor.DbAccessor(DB, USER)
         self.dba.add_note('testtitle', 'testcontent')
 
         self.dba.delete_note(1)
