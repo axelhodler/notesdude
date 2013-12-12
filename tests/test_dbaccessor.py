@@ -10,6 +10,7 @@ USER = 'xorrr'
 
 class TestDbAccessor():
     def setUp(self):
+        self.dba = dbaccessor.DbAccessor(DB, USER)
         self.con = psycopg2.connect(database=DB, user=USER)
         self.cur = self.con.cursor()
 
@@ -19,7 +20,6 @@ class TestDbAccessor():
         assert version[0] == 'PostgreSQL 9.3.2 on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 4.8.2, 64-bit'
 
     def test_adding_note(self):
-        self.dba = dbaccessor.DbAccessor(DB, USER)
         self.dba.add_note('testtitle', 'testcontent')
 
         self.cur.execute('SELECT * FROM Notes')
@@ -30,7 +30,6 @@ class TestDbAccessor():
         assert rows[2] == 'testcontent'
 
     def test_deleting_note(self):
-        self.dba = dbaccessor.DbAccessor(DB, USER)
         self.dba.add_note('testtitle', 'testcontent')
 
         self.dba.delete_note(1)
