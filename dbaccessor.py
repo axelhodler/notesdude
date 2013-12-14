@@ -1,9 +1,20 @@
 import psycopg2
 import os
+import urlparse
 
 class DbAccessor():
-    def __init__(self, db_name, user_name):
-        self.con = psycopg2.connect(database=db_name, user=user_name)
+    def __init__(self):
+        urlparse.uses_netloc.append("postgres")
+        url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+        self.con = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+
         self.cur = self.con.cursor()
         self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY KEY, Title TEXT, Content TEXT)")
         self.con.commit()

@@ -2,16 +2,24 @@ from webtest import TestApp
 
 import psycopg2
 import os
+import urlparse
 
 import dbaccessor
 
-DB = 'test'
-USER = 'xorrr'
-
 class TestDbAccessor():
     def setUp(self):
-        self.dba = dbaccessor.DbAccessor(DB, USER)
-        self.con = psycopg2.connect(database=DB, user=USER)
+        self.dba = dbaccessor.DbAccessor()
+        urlparse.uses_netloc.append("postgres")
+        url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+        self.con = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+
         self.cur = self.con.cursor()
 
     def test_connection(self):
