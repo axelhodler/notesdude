@@ -6,6 +6,7 @@ class DbAccessor():
         self.con = psycopg2.connect(database=db_name, user=user_name)
         self.cur = self.con.cursor()
         self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY KEY, Title TEXT, Content TEXT)")
+        self.con.commit()
 
     def get_all_notes(self):
         ''' returns a list with tuples '''
@@ -37,6 +38,3 @@ class DbAccessor():
 
     def get_cursor(self):
         return self.cur
-
-    def get_connection(self):
-        return self.con
