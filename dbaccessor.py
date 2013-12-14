@@ -20,6 +20,9 @@ class DbAccessor():
             note['content'] = row[2]
             notes.append(note)
 
+        # always commit open SELECTs or issues will arise
+        self.con.commit()
+
         return notes
 
     def add_note(self, title, content):
