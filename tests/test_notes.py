@@ -5,11 +5,9 @@ import ConfigParser
 
 import notes
 import dbaccessor
+import urlparse
 
 import psycopg2
-
-DB = 'test'
-USER = 'xorrr'
 
 CONFIG_FILE = 'user.cfg'
 
@@ -40,7 +38,7 @@ class TestWebserver():
 
     def setUp(self):
         self.bottle = TestApp(notes.SESSION)
-        self.dba = dbaccessor.DbAccessor(DB, USER)
+        self.dba = dbaccessor.DbAccessor()
 
     def test_route_index(self):
         # after adding these two 4 forms will exist (two delete buttons, the
@@ -171,7 +169,17 @@ class TestWebserver():
         self.check_if_logged_in(result)
 
     def tearDown(self):
-        con = psycopg2.connect(database=DB, user=USER)
+        urlparse.uses_netloc.append("postgres")
+        url = urlparse.urlparse(os.environ["DATABASE_URL"])
+
+        con = psycopg2.connect(
+            database=url.path[1:],
+            user=url.username,
+            password=url.password,
+            host=url.hostname,
+            port=url.port
+        )
+
         cur = con.cursor()
         cur.execute("DROP TABLE IF EXISTS Notes")
         con.commit()
