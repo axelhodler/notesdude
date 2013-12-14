@@ -37,3 +37,6 @@ class DbAccessor():
 
     def get_cursor(self):
         return self.cur
+
+    def get_connection(self):
+        return self.con
