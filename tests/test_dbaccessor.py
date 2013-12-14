@@ -63,6 +63,8 @@ class TestDbAccessor():
         assert isinstance(connection, psycopg2._psycopg.connection)
 
     def tearDown(self):
+        self.dba.get_connection().close()
+
         self.cur.execute("DROP TABLE IF EXISTS Notes")
         self.con.commit()
         self.con.close()
