@@ -6,7 +6,11 @@ import ConfigParser
 import notes
 import dbaccessor
 
-DB = 'notes.db'
+import psycopg2
+
+DB = 'test'
+USER = 'xorrr'
+
 CONFIG_FILE = 'user.cfg'
 
 class TestWebserver():
@@ -36,7 +40,7 @@ class TestWebserver():
 
     def setUp(self):
         self.bottle = TestApp(notes.SESSION)
-        self.dba = dbaccessor.DbAccessor(DB)
+        self.dba = dbaccessor.DbAccessor(DB, USER)
 
     def test_route_index(self):
         # after adding these two 4 forms will exist (two delete buttons, the
@@ -167,5 +171,8 @@ class TestWebserver():
         self.check_if_logged_in(result)
 
     def tearDown(self):
-        if os.path.isfile(DB):
-            os.remove(DB)
+        con = psycopg2.connect(database=DB, user=USER)
+        cur = con.cursor()
+        cur.execute("DROP TABLE IF EXISTS Notes")
+        con.commit()
+        con.close()

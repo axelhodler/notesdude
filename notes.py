@@ -5,7 +5,8 @@ import bottle
 import dbaccessor
 import ConfigParser
 
-DB = 'notes.db'
+DB = 'test'
+USER = 'xorrr'
 
 CONFIG_FILE = 'user.cfg'
 
@@ -32,7 +33,7 @@ def index():
     session = get_session()
     logged_in = 'user' in session
 
-    dba = dbaccessor.DbAccessor(DB)
+    dba = dbaccessor.DbAccessor(DB, USER)
     notes = dba.get_all_notes()
 
     if logged_in:
@@ -46,7 +47,7 @@ def new():
         title = request.POST.get('title','').strip()
         content = request.POST.get('content','').strip()
 
-        dba = dbaccessor.DbAccessor(DB)
+        dba = dbaccessor.DbAccessor(DB, USER)
         dba.add_note(title, content)
 
         redirect("/")
@@ -56,7 +57,7 @@ def delete_note(note_id):
     session = get_session()
     logged_in = 'user' in session
     if logged_in:
-        dba = dbaccessor.DbAccessor(DB)
+        dba = dbaccessor.DbAccessor(DB, USER)
         dba.delete_note(note_id)
         redirect("/")
     else:
