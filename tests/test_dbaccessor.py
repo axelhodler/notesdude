@@ -56,7 +56,7 @@ class TestDbAccessor():
 
     def test_getting_cursor(self):
         cursor = self.dba.get_cursor()
-        assert isinstance(cursor, sqlite3.Cursor)
+        assert isinstance(cursor, psycopg2._psycopg.cursor)
 
     def tearDown(self):
         self.cur.execute("DROP TABLE IF EXISTS Notes")
