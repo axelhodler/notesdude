@@ -125,11 +125,17 @@ class TestWebserver():
         assert result.status_int == 302
         assert "Add Note" in result.follow()
 
-        result = self.bottle.post('/login', {'user': 'xor'}, status=404)
-        assert result.status_int == 404
+        result = self.bottle.get('/logout')
 
-        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'wrong'}, status=404)
-        assert result.status_int == 404
+        fail_msg = "Login failed, check your credentials and try again"
+
+        result = self.bottle.post('/login', {'user': 'xor'}, status=302)
+        assert result.status_int == 302
+        assert fail_msg in result.follow()
+
+        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'wrong'}, status=302)
+        assert result.status_int == 302
+        assert fail_msg in result.follow()
 
     def test_logout(self):
         result = self.login()

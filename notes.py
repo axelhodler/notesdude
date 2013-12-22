@@ -29,14 +29,17 @@ def error404(error):
 def index():
     session = get_session()
     logged_in = 'user' in session
+    login_failed = 'fail' in session
 
     dba = dbaccessor.DbAccessor()
     notes = dba.get_all_notes()
 
     if logged_in:
-        return index_template(notes, session['user'])
+        return index_template(notes, session['user'], None)
+    elif login_failed:
+        return index_template(notes, None, session['fail'])
     else:
-        return index_template(notes, None)
+        return index_template(notes, None, None)
 
 @APP.route('/new', method='POST')
 def new():
@@ -65,12 +68,13 @@ def login():
     config = ConfigParser.RawConfigParser()
     config.read(CONFIG_FILE)
     config_section = config.sections()[0]
+    session = get_session()
     if request.forms.get('user') == config.get(config_section, 'username') and request.forms.get('password') == config.get(config_section, 'password'):
-        session = get_session()
         session['user'] = request.forms.get('user')
-        redirect("/")
+        session['fail'] = None
     else:
-        response.status = 404
+        session['fail'] = 'failed'
+    redirect("/")
 
 @APP.route('/login', method='GET')
 def login():
@@ -89,8 +93,8 @@ def logout():
         session.delete()
         redirect('/')
 
-def index_template(notes, user):
-    output = template('index.tpl', rows=notes, user=user)
+def index_template(notes, user, fail):
+    output = template('index.tpl', rows=notes, user=user, fail=fail)
     return output
 
 def get_session():

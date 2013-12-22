@@ -60,7 +60,7 @@
       </table>
     </div>
   <div class="col-md-4">
-%if user is not None:
+%if user is not None and fail is None:
       <div class="panel panel-default">
         <div class="panel-heading">Add Note</div>
         <div class="panel-body">
@@ -74,6 +74,10 @@
             <input class="btn btn-success pull-right" type="submit" value="Save Note" name="save">
           </form>
         </div>
+      </div>
+%elif fail is not None:
+      <div class="panel panel-default">
+        <div class="panel-heading">Login failed, check your credentials and try again</div>
       </div>
 %else:
       <div class="panel panel-default">
