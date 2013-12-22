@@ -123,6 +123,7 @@ class TestWebserver():
     def test_login(self):
         result = self.login()
         assert result.status_int == 302
+        assert "Add Note" in result.follow()
 
         result = self.bottle.post('/login', {'user': 'xor'}, status=404)
         assert result.status_int == 404
