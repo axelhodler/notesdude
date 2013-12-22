@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#form: postgres://user:password@host:port/database
+export DATABASE_URL=postgres://xorrr:@localhost/test
+
+python notes.py
