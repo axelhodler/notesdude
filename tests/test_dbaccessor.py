@@ -22,11 +22,6 @@ class TestDbAccessor():
 
         self.cur = self.con.cursor()
 
-    def test_connection(self):
-        self.cur.execute("SELECT version()")
-        version = self.cur.fetchone()
-        assert version[0] == 'PostgreSQL 9.3.2 on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 4.8.2, 64-bit'
-
     def test_adding_note(self):
         self.dba.add_note('testtitle', 'testcontent')
 
