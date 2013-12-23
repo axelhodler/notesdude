@@ -1,15 +1,15 @@
 before_script:
-  - psql -c 'create database myapp_test;' -U postgres
+  - psql -c 'create database notes_test;' -U postgres
 
 addons:
-  - postgresql: 9.3
+  - postgresql: "9.3"
 
 language: python
 python:
   - "2.7"
 
 env:
-  - DATABASE_URL = postgres://postgres:@127.0.0.1/myapp_test
+  - DATABASE_URL = "postgres://postgres:@127.0.0.1/notes_test"
 
 # command to install dependencies
 install: "pip install -r requirements.txt"
