@@ -3,4 +3,5 @@
 #form: postgres://user:password@host:port/database
 export DATABASE_URL=postgres://xorrr:@localhost/test
 
-nosetests --rednose -s
+# -x <- stop running tests after the first error or failure
+nosetests --rednose -s -x
