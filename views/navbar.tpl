@@ -13,7 +13,7 @@
       <ul class="nav navbar-nav">
         <li><a href="https://github.com/xorrr/notesdude">Source</a></li>
       </ul>
-%if user is None:
+%if not user_is_logged_in:
       <form class="navbar-form navbar-right" role="form" action="/login" method="POST">
         <div class="form-group">
           <input id="user" type="text" placeholder="User" name="user" class="form-control">

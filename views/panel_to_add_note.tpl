@@ -1,4 +1,4 @@
-%if user is not None and fail is None:
+%if user_is_logged_in and not login_has_failed:
 <div class="panel panel-default">
   <div class="panel-heading">Add Note</div>
   <div class="panel-body">
@@ -13,7 +13,7 @@
     </form>
   </div>
 </div>
-%elif fail is not None:
+%elif login_has_failed:
 <div class="panel panel-default">
   <div class="panel-heading">Login failed, check your credentials and try again</div>
 </div>

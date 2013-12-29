@@ -10,7 +10,7 @@
     <td>{{row.get('title')}}</td>
     <td>{{row.get('content')}}</td>
     <td><form action="/delete/{{row.get('id')}}">
-      %if user is not None:
+      %if user_is_logged_in:
       <input class="btn btn-danger btn-xs pull-right" type="submit" value="Delete Note">
       %else:
       <input class="btn btn-danger btn-xs pull-right" type="submit" value="Delete Note" disabled="disabled">

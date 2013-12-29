@@ -27,19 +27,7 @@ def error404(error):
 
 @APP.route('/')
 def index():
-    session = get_session()
-    logged_in = 'user' in session
-    login_failed = 'fail' in session
-
-    dba = dbaccessor.DbAccessor()
-    notes = dba.get_all_notes()
-
-    if logged_in:
-        return index_template(notes, session['user'], None)
-    elif login_failed:
-        return index_template(notes, None, session['fail'])
-    else:
-        return index_template(notes, None, None)
+    return build_index_template();
 
 @APP.route('/new', method='POST')
 def new():
@@ -71,7 +59,6 @@ def login():
     session = get_session()
     if request.forms.get('user') == config.get(config_section, 'username') and request.forms.get('password') == config.get(config_section, 'password'):
         session['user'] = request.forms.get('user')
-        session['fail'] = None
     else:
         session['fail'] = 'failed'
     redirect("/")
@@ -93,8 +80,15 @@ def logout():
         session.delete()
         redirect('/')
 
-def index_template(notes, user, fail):
-    output = template('index.tpl', rows=notes, user=user, fail=fail)
+def build_index_template():
+    session = get_session()
+    logged_in = 'user' in session
+    login_failed = 'fail' in session
+
+    dba = dbaccessor.DbAccessor()
+    notes = dba.get_all_notes()
+
+    output = template('index.tpl', rows=notes, is_logged_in=logged_in, has_failed=login_failed)
     return output
 
 def get_session():
