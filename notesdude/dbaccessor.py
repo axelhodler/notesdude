@@ -2,6 +2,8 @@ import psycopg2
 import os
 import urlparse
 
+TABLE_NAME = "Notes"
+
 class DbAccessor():
     def __init__(self):
         urlparse.uses_netloc.append("postgres")
@@ -16,13 +18,14 @@ class DbAccessor():
         )
 
         self.cur = self.con.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY " +
+        self.cur.execute("CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(Id " +
+                         "SERIAL PRIMARY " +
                          "KEY, Title TEXT, Content TEXT)")
         self.con.commit()
 
     def get_all_notes(self):
         ''' returns a list with tuples '''
-        self.cur.execute('SELECT * FROM Notes')
+        self.cur.execute('SELECT * FROM ' + TABLE_NAME)
         rows = self.cur.fetchall()
 
         notes = []
@@ -40,12 +43,12 @@ class DbAccessor():
 
     def add_note(self, title, content):
         note = (title, content)
-        query = "INSERT INTO Notes(Title, Content) VALUES(%s, %s)"
+        query = "INSERT INTO " + TABLE_NAME + "(Title, Content) VALUES(%s, %s)"
         self.cur.execute(query, note)
         self.con.commit()
 
     def delete_note(self, id):
-        self.cur.execute('DELETE FROM Notes WHERE Id = ' + str(id))
+        self.cur.execute('DELETE FROM ' + TABLE_NAME + ' WHERE Id = ' + str(id))
         self.con.commit()
 
     def get_cursor(self):

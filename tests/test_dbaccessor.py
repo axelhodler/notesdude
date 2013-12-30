@@ -6,6 +6,8 @@ import urlparse
 
 from notesdude.dbaccessor import DbAccessor
 
+TABLE_NAME = "Notes"
+
 class TestDbAccessor():
     def setUp(self):
         self.dba = DbAccessor()
@@ -25,7 +27,7 @@ class TestDbAccessor():
     def test_adding_note(self):
         self.dba.add_note('testtitle', 'testcontent')
 
-        self.cur.execute('SELECT * FROM Notes')
+        self.cur.execute('SELECT * FROM ' + TABLE_NAME)
         rows = self.cur.fetchone()
 
         assert rows[0] == 1
@@ -37,7 +39,7 @@ class TestDbAccessor():
 
         self.dba.delete_note(1)
 
-        self.cur.execute('SELECT * FROM Notes')
+        self.cur.execute('SELECT * FROM ' + TABLE_NAME)
         rows = self.cur.fetchone()
 
         assert rows == None
@@ -62,6 +64,6 @@ class TestDbAccessor():
         assert isinstance(cursor, psycopg2._psycopg.cursor)
 
     def tearDown(self):
-        self.cur.execute("DROP TABLE IF EXISTS Notes")
+        self.cur.execute("DROP TABLE IF EXISTS " + TABLE_NAME)
         self.con.commit()
         self.con.close()

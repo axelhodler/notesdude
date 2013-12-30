@@ -11,6 +11,8 @@ import psycopg2
 
 CONFIG_FILE = 'user.cfg'
 
+TABLE_NAME = "Notes"
+
 class TestWebserver():
     def login(self):
         config = ConfigParser.RawConfigParser()
@@ -87,7 +89,7 @@ class TestWebserver():
 
         result = self.bottle.get('/')
 
-        assert '<h1>Notes</h1>' in result
+        assert '<h1>' + TABLE_NAME + '</h1>' in result
         assert 'href="static/css/bootstrap.min.css"' in result
 
     def test_accessing_static_file(self):
@@ -192,6 +194,6 @@ class TestWebserver():
         )
 
         cur = con.cursor()
-        cur.execute("DROP TABLE IF EXISTS Notes")
+        cur.execute("DROP TABLE IF EXISTS " + TABLE_NAME)
         con.commit()
         con.close()
