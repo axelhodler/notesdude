@@ -16,7 +16,8 @@ class DbAccessor():
         )
 
         self.cur = self.con.cursor()
-        self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY KEY, Title TEXT, Content TEXT)")
+        self.cur.execute("CREATE TABLE IF NOT EXISTS Notes(Id SERIAL PRIMARY " +
+                         "KEY, Title TEXT, Content TEXT)")
         self.con.commit()
 
     def get_all_notes(self):

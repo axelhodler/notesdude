@@ -1,4 +1,5 @@
-from bottle import Bottle, route, run, template, request, static_file, error, SimpleTemplate, response, redirect
+from bottle import Bottle, route, run, template, request, static_file, error,\
+SimpleTemplate, response, redirect
 from beaker.middleware import SessionMiddleware
 import os
 import bottle
@@ -57,7 +58,8 @@ def login():
     config.read(CONFIG_FILE)
     config_section = config.sections()[0]
     session = get_session()
-    if request.forms.get('user') == config.get(config_section, 'username') and request.forms.get('password') == config.get(config_section, 'password'):
+    if request.forms.get('user') == config.get(config_section, 'username') and \
+       request.forms.get('password') == config.get(config_section, 'password'):
         session['user'] = request.forms.get('user')
     else:
         session['fail'] = 'failed'
@@ -88,11 +90,13 @@ def build_index_template():
     dba = dbaccessor.DbAccessor()
     notes = dba.get_all_notes()
 
-    output = template('index.tpl', rows=notes, is_logged_in=logged_in, has_failed=login_failed)
+    output = template('index.tpl', rows=notes, is_logged_in=logged_in,
+                      has_failed=login_failed)
     return output
 
 def get_session():
     return bottle.request.environ.get('beaker.session')
 
 if __name__ == '__main__':
-    bottle.run(app=SESSION, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    bottle.run(app=SESSION, host="0.0.0.0",
+               port=int(os.environ.get("PORT", 5000)))

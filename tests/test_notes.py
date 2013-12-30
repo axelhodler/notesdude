@@ -17,7 +17,10 @@ class TestWebserver():
         config.read(CONFIG_FILE)
         section = config.sections()[0]
 
-        return self.bottle.post('/login', {'user': config.get(section, 'username'), 'password': config.get(section, 'password')})
+        return self.bottle.post('/login',\
+                                {'user': config.get(section, \
+                                'username'), 'password': \
+                                 config.get(section, 'password')})
 
     def check_if_logged_in(self, result):
         assert 'Logged in as: ' in result.body
@@ -133,7 +136,8 @@ class TestWebserver():
         assert result.status_int == 302
         assert fail_msg in result.follow()
 
-        result = self.bottle.post('/login', {'user': 'xorrr', 'password': 'wrong'}, status=302)
+        result = self.bottle.post('/login', {'user': 'xorrr', \
+                                             'password': 'wrong'}, status=302)
         assert result.status_int == 302
         assert fail_msg in result.follow()
 
