@@ -4,11 +4,11 @@ import psycopg2
 import os
 import urlparse
 
-import dbaccessor
+from notesdude.dbaccessor import DbAccessor
 
 class TestDbAccessor():
     def setUp(self):
-        self.dba = dbaccessor.DbAccessor()
+        self.dba = DbAccessor()
         urlparse.uses_netloc.append("postgres")
         url = urlparse.urlparse(os.environ["DATABASE_URL"])
 

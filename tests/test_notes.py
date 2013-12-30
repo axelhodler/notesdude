@@ -3,8 +3,8 @@ import os
 import re
 import ConfigParser
 
-import notes
-import dbaccessor
+import notesdude.notes
+from notesdude.dbaccessor import DbAccessor
 import urlparse
 
 import psycopg2
@@ -37,8 +37,8 @@ class TestWebserver():
         assert forms[3]['content'].value == ''
 
     def setUp(self):
-        self.bottle = TestApp(notes.SESSION)
-        self.dba = dbaccessor.DbAccessor()
+        self.bottle = TestApp(notesdude.notes.SESSION)
+        self.dba = DbAccessor()
 
     def test_route_index(self):
         # after adding these two 4 forms will exist (two delete buttons, the
