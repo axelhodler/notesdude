@@ -1,6 +1,4 @@
-# Notesdude
-
-[![Build Status](https://travis-ci.org/xorrr/notesdude.png)](https://travis-ci.org/xorrr/notesdude)
+# Notesdude [![Build Status](https://travis-ci.org/xorrr/notesdude.svg)](https://travis-ci.org/xorrr/notesdude)
 
 a basic note taking application realized with the bottle python web
 framework while using TDD
